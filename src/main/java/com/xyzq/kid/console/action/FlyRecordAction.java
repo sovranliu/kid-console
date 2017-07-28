@@ -8,8 +8,6 @@ import com.xyzq.simpson.maggie.framework.Visitor;
 import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
-
 /**
  * 范例动作
  */
@@ -35,5 +33,4 @@ public class FlyRecordAction implements IAction {
         context.set("data", JSONObject.convertFromObject(flyRecordService.call()).toString());
         return "success.json";
     }
-
 }
