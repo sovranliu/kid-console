@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
- * 范例动作
+ *
  */
-@MaggieAction(path = "kid/console/record")
-public class RecordAction implements IAction {
+@MaggieAction(path = "kid/console/recordBuy")
+public class RecordBuyAction implements IAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
      */
@@ -30,9 +30,21 @@ public class RecordAction implements IAction {
      */
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
-        String data =JSONObject.convertFromObject(recordService.load(Integer.valueOf(String.valueOf(context.parameter("id"))))).toString();
-        context.set("msg", "这个是前端需要展示的消息");
-        context.set("data", data);
+
+
+        context.set("msg", "飞行日志礼物购买成功!");
+        context.set("code", "0");
+        if (null != context.parameter("ticketId")) {
+            Integer ticketId = Integer.valueOf(String.valueOf(context.parameter("ticketId")));
+            context.set("data", JSONObject.convertFromObject(recordService.buyRecords(ticketId)));
+        }else
+        if (null != context.parameter("id")) {
+            Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
+            context.set("data", JSONObject.convertFromObject(recordService.buyRecord(id)));
+        }else{
+            context.set("msg", "飞行日志礼物购买失败,缺少参数!");
+            context.set("code", "1");
+        }
         return "success.json";
     }
 

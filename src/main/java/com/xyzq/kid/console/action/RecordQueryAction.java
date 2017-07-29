@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
- * 范例动作
+ *
  */
-@MaggieAction(path = "kid/console/record")
-public class RecordAction implements IAction {
+@MaggieAction(path = "kid/console/recordQuery")
+public class RecordQueryAction implements IAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
      */
@@ -30,9 +30,11 @@ public class RecordAction implements IAction {
      */
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
-        String data =JSONObject.convertFromObject(recordService.load(Integer.valueOf(String.valueOf(context.parameter("id"))))).toString();
-        context.set("msg", "这个是前端需要展示的消息");
-        context.set("data", data);
+        Integer ticketId = Integer.valueOf(String.valueOf(context.parameter("ticketId")));
+        String purchased =String.valueOf(context.parameter("purchased"));
+        context.set("msg", "查询成功!");
+        context.set("code", "0");
+        context.set("data", JSONObject.convertFromObject(recordService.findBy(ticketId,purchased)));
         return "success.json";
     }
 
