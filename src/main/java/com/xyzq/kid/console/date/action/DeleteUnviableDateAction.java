@@ -1,4 +1,4 @@
-package com.xyzq.kid.console.action;
+package com.xyzq.kid.console.date.action;
 
 import com.xyzq.kid.logic.dateUnviable.service.DateUnviableService;
 import com.xyzq.simpson.base.json.JSONObject;
@@ -9,7 +9,7 @@ import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 范例动作
+ * 删除不可预约日期
  */
 @MaggieAction(path = "kid/console/deleteUnviableDate")
 public class DeleteUnviableDateAction implements IAction {
