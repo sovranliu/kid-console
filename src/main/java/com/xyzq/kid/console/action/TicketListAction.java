@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 范例动作
  */
-@MaggieAction(path = "kid/console/addUnviableDate")
-public class AddUnviableDateAction implements IAction {
+@MaggieAction(path = "kid/console/ticketList")
+public class TicketListAction implements IAction {
 	/**
 	 * Action中只支持Autowired注解引入SpringBean
 	 */
@@ -29,11 +29,7 @@ public class AddUnviableDateAction implements IAction {
 	 */
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
-		if (context.parameter("unviableDate") == null) {
-			context.set("code", "1");
-			context.set("msg", "参数不能为空！");
-			return "success.json";
-		}
+		 
 		if (dateUnviableService.findBy(String.valueOf(context.parameter("unviableDate"))) == null) {
 			context.set("code", "0");
 			context.set("msg", "新增不可预约日期成功！");
