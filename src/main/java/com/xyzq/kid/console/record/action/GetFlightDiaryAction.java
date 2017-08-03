@@ -14,27 +14,27 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @MaggieAction(path = "kid/console/getFlightDiary")
 public class GetFlightDiaryAction implements IAction {
-    /**
-     * Action中只支持Autowired注解引入SpringBean
-     */
-    @Autowired
-    private RecordService recordService;
+	/**
+	 * Action中只支持Autowired注解引入SpringBean
+	 */
+	@Autowired
+	private RecordService recordService;
 
 
-    /**
-     * 动作执行
-     *
-     * @param visitor 访问者
-     * @param context 请求上下文
-     * @return 下一步动作，包括后缀名，null表示结束
-     */
-    @Override
-    public String execute(Visitor visitor, Context context) throws Exception {
-        String serialNo  = String.valueOf(context.parameter("serialNumber"));
-        context.set("msg", "查询成功!");
-        context.set("code", "0");
-        context.set("data", JSONObject.convertFromObject(recordService.findBy(serialNo,null)));
-        return "success.json";
-    }
+	/**
+	 * 动作执行
+	 *
+	 * @param visitor 访问者
+	 * @param context 请求上下文
+	 * @return 下一步动作，包括后缀名，null表示结束
+	 */
+	@Override
+	public String execute(Visitor visitor, Context context) throws Exception {
+		String serialNo = String.valueOf(context.parameter("serialNumber"));
+		context.set("msg", "查询成功!");
+		context.set("code", "0");
+		context.set("data", JSONObject.convertFromObject(recordService.findBy(serialNo, null)));
+		return "success.json";
+	}
 
 }
