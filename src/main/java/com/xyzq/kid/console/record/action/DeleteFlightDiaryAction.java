@@ -1,5 +1,7 @@
 package com.xyzq.kid.console.record.action;
 
+import com.xyzq.kid.logic.record.dao.po.RecordPO;
+import com.xyzq.kid.logic.record.entity.RecordEntity;
 import com.xyzq.kid.logic.record.service.RecordService;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
@@ -10,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
- * 查询飞行日志记录
+ * 根据飞行日志id删除飞行日志
  */
-@MaggieAction(path = "kid/console/loadFlightDiary")
-public class RecordAction implements IAction {
+@MaggieAction(path = "kid/console/deleteFlightDiary")
+public class DeleteFlightDiaryAction implements IAction {
 	/**
 	 * Action中只支持Autowired注解引入SpringBean
 	 */
@@ -30,9 +32,16 @@ public class RecordAction implements IAction {
 	 */
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
-		String data = JSONObject.convertFromObject(recordService.load(Integer.valueOf(String.valueOf(context.parameter("id"))))).toString();
-		context.set("msg", "这个是前端需要展示的消息");
-		context.set("data", data);
+		Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
+		RecordEntity entity = recordService.load(id);
+		if (entity == null) {
+			context.set("msg", "不能存在该ID记录!");
+			context.set("code", "1");
+			return "success.json";
+		}
+		recordService.deleteRecord(id);
+		context.set("msg", "删除成功!");
+		context.set("code", "0");
 		return "success.json";
 	}
 

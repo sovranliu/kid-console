@@ -1,6 +1,6 @@
 package com.xyzq.kid.console.action;
 
-import com.xyzq.kid.logic.dateUnviable.service.DateUnviableService;
+import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
@@ -17,7 +17,7 @@ public class TicketListAction implements IAction {
 	 * Action中只支持Autowired注解引入SpringBean
 	 */
 	@Autowired
-	private DateUnviableService dateUnviableService;
+	private TicketService ticketService;
 
 
 	/**
@@ -30,14 +30,14 @@ public class TicketListAction implements IAction {
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
 		 
-		if (dateUnviableService.findBy(String.valueOf(context.parameter("unviableDate"))) == null) {
-			context.set("code", "0");
-			context.set("msg", "新增不可预约日期成功！");
-			context.set("data", JSONObject.convertFromObject(dateUnviableService.insertDateUnviable(String.valueOf(context.parameter("unviableDate")))));
-		} else {
-			context.set("code", "1");
-			context.set("msg", "该日期已经是不可预约日期了！");
-		}
+//		if (ticketService.findBy(String.valueOf(context.parameter("unviableDate"))) == null) {
+//			context.set("code", "0");
+//			context.set("msg", "新增不可预约日期成功！");
+//			context.set("data", JSONObject.convertFromObject(dateUnviableService.insertDateUnviable(String.valueOf(context.parameter("unviableDate")))));
+//		} else {
+//			context.set("code", "1");
+//			context.set("msg", "该日期已经是不可预约日期了！");
+//		}
 		return "success.json";
 	}
 }

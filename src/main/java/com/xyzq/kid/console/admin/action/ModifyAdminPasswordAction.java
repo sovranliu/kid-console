@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 新增后台管理员
  * Created by Brann on 17/7/29.
  */
-@MaggieAction(path = "kid/console/addAdmin")
-public class updateAdminAction implements IAction {
+@MaggieAction(path = "kid/console/modifyPassword")
+public class ModifyAdminPasswordAction implements IAction {
 	@Autowired
 	private AdminService adminService;
 
