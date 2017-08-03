@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
- * 根据票圈ID查询查询飞行日志
+ * 根据票圈serialNumber查询查询飞行日志
  */
-@MaggieAction(path = "kid/console/recordQuery")
-public class RecordQueryAction implements IAction {
+@MaggieAction(path = "kid/console/getFlightDiary")
+public class GetFlightDiaryAction implements IAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
      */
@@ -30,11 +30,10 @@ public class RecordQueryAction implements IAction {
      */
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
-        Integer ticketId = Integer.valueOf(String.valueOf(context.parameter("ticketId")));
-        String purchased =String.valueOf(context.parameter("purchased"));
+        String serialNo  = String.valueOf(context.parameter("serialNumber"));
         context.set("msg", "查询成功!");
         context.set("code", "0");
-        context.set("data", JSONObject.convertFromObject(recordService.findBy(ticketId,purchased)));
+        context.set("data", JSONObject.convertFromObject(recordService.findBy(serialNo,null)));
         return "success.json";
     }
 

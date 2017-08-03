@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 查询飞行日志记录
  */
-@MaggieAction(path = "kid/console/record")
+@MaggieAction(path = "kid/console/loadFlightDiary")
 public class RecordAction implements IAction {
     /**
      * Action中只支持Autowired注解引入SpringBean
