@@ -10,7 +10,7 @@ import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 import com.xyzq.simpson.maggie.framework.action.core.IAction;
 
-@MaggieAction(path="kid/console/isVisableDate")
+@MaggieAction(path="kid/console/isViableDate")
 public class IsVisableDate implements IAction {
 	
 	@Autowired

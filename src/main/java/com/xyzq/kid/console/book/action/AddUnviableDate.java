@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.mysql.jdbc.StringUtils;
 import com.xyzq.kid.logic.dateUnviable.entity.DateUnviableEntity;
 import com.xyzq.kid.logic.dateUnviable.service.DateUnviableService;
+import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 import com.xyzq.simpson.maggie.framework.action.core.IAction;
 
+@MaggieAction(path="kid/console/addUnviableDate")
 public class AddUnviableDate implements IAction {
 	
 	@Autowired
