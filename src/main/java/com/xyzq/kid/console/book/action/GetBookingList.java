@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
+import com.mysql.jdbc.StringUtils;
 import com.xyzq.kid.logic.Page;
 import com.xyzq.kid.logic.book.dao.po.Book;
 import com.xyzq.kid.logic.book.service.BookService;
@@ -36,7 +37,7 @@ public class GetBookingList implements IAction {
 	BookTimeSpanService bookTimeSpanService;
 	
 	Gson gson=new Gson();
-
+	
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
 		
@@ -55,11 +56,13 @@ public class GetBookingList implements IAction {
 			List<Book> bookList=bookPage.getResultList();
 			for(Book book:bookList){
 				UserEntity user=userService.getUserById(book.getUserid());
-				String userName=user.realname;
-				map.put("name", userName);
+				if(user!=null){
+					String userName=user.realname;
+					map.put("name", userName);
+				}
 				map.put("serialNumber", ticketSerialNo);
 				map.put("telephone", mobileNo);
-				map.put("status", status);
+				map.put("status", statusTransfer(status));
 				map.put("time", book.getBookdate()+" "+book.getBooktime());
 				mapList.add(map);
 			}
@@ -69,5 +72,36 @@ public class GetBookingList implements IAction {
 		return "success.json";
 	}
 	
+	public String statusTransfer(String status){
+		//1：已预约，2：改期申请中，3：改期通过，4：改期拒绝，5：核销完成，6：撤销申请中，7：撤销通过，8：拒绝撤销
+		String desc=status;
+		if(!StringUtils.isNullOrEmpty(status)){
+			if(status.equals("1")){
+				desc="已预约";
+			}
+			if(status.equals("2")){
+				desc="改期申请中";
+			}
+			if(status.equals("3")){
+				desc="改期通过";
+			}
+			if(status.equals("4")){
+				desc="改期拒绝";
+			}
+			if(status.equals("5")){
+				desc="核销完成";
+			}
+			if(status.equals("6")){
+				desc="撤销申请中";
+			}
+			if(status.equals("7")){
+				desc="撤销通过";
+			}
+			if(status.equals("8")){
+				desc="拒绝撤销";
+			}
+		}
+		return desc;
+	}
 	
 }
