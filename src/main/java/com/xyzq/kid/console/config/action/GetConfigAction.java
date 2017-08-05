@@ -2,6 +2,7 @@ package com.xyzq.kid.console.config.action;
 
 import com.xyzq.kid.logic.config.entity.ConfigEntity;
 import com.xyzq.kid.logic.config.service.ConfigService;
+import com.xyzq.simpson.base.json.JSONArray;
 import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
@@ -33,7 +34,8 @@ public class GetConfigAction implements IAction {
 
 		context.set("msg", "查询成功");
 		context.set("code", "0");
-		context.set("data", JSONObject.convertFromObject(configEntityList));
+
+		context.set("data", JSONArray.convertFromSet(configEntityList));
 
 		return "success.json";
 	}
