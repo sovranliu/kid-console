@@ -53,7 +53,7 @@ public abstract class AdminAjaxAction implements IAction {
             }
         }
         if(0 == adminId) {
-            context.put("redirect", url_page_login);
+            context.set("redirect", url_page_login);
             return "fail.json";
         }
         return doExecute(visitor, context);
