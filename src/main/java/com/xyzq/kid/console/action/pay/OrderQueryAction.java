@@ -64,7 +64,7 @@ public class OrderQueryAction implements IAction {
         }
         catch (Exception ex) { }
         int begin = (Integer) context.parameter("begin", 0);
-        int size = (Integer) context.parameter("size", 10);
+        int size = (Integer) context.parameter("limit", 10);
         List<OrderInfoEntity> orderInfoEntityList = orderService.find(orderNo, openId, status, beginTime, endTime, begin, size);
         context.set("data", JSONArray.convertFromSet(orderInfoEntityList));
         return "success.json";
