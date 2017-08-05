@@ -3,7 +3,6 @@ package com.xyzq.kid.console.book.action;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mysql.jdbc.StringUtils;
-import com.xyzq.kid.common.action.CustomerAction;
 import com.xyzq.kid.logic.dateUnviable.entity.DateUnviableEntity;
 import com.xyzq.kid.logic.dateUnviable.service.DateUnviableService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
@@ -26,9 +25,6 @@ public class IsVisableDate implements IAction {
 				context.set("code", "0");
 			}
 		}
-		
 		return "success.json";
 	}
-	
-	
 }
