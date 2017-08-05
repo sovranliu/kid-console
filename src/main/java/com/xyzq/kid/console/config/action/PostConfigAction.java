@@ -1,15 +1,12 @@
 package com.xyzq.kid.console.config.action;
 
-import com.xyzq.kid.logic.config.entity.ConfigEntity;
 import com.xyzq.kid.logic.config.service.ConfigService;
-import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 
 /**
  * 新增系统该参数
@@ -29,11 +26,15 @@ public class PostConfigAction implements IAction {
 	 */
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
-		List<ConfigEntity> configEntityList = configService.find();
 
-		context.set("msg", "查询成功");
+		String name = String.valueOf(context.parameter("name"));
+		String title = String.valueOf(context.parameter("title"));
+		String content = String.valueOf(context.parameter("content"));
+		String pattern = String.valueOf(context.parameter("pattern"));
+
+		Integer id = configService.addConfig(name, title,content, pattern);
+		context.set("msg", "新增成功");
 		context.set("code", "0");
-		context.set("data", JSONObject.convertFromObject(configEntityList));
 
 		return "success.json";
 	}
