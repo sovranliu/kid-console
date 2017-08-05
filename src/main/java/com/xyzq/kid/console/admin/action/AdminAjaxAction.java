@@ -29,10 +29,6 @@ public abstract class AdminAjaxAction implements IAction {
      */
     @Autowired
     protected AdminService adminService;
-    /**
-     * 管理员ID
-     */
-    protected int adminId = 0;
 
 
     /**
@@ -44,11 +40,16 @@ public abstract class AdminAjaxAction implements IAction {
      */
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
+        int adminId = 0;
         String aId = visitor.cookie("aid");
         if(!Text.isBlank(aId)) {
             Integer id = adminService.fetchAdminId(aId);
-            if(null != id) {
+            if(null == id) {
+                visitor.setCookie("aid", null);
+            }
+            else {
                 adminId = id;
+                context.put(CONTEXT_KEY_AID, adminId);
             }
         }
         if(0 == adminId) {
