@@ -57,7 +57,7 @@ public class GetBookingList implements IAction {
 			for(Book book:bookList){
 				UserEntity user=userService.getUserById(book.getUserid());
 				if(user!=null){
-					String userName=user.realname;
+					String userName=user.telephone;
 					map.put("name", userName);
 				}
 				map.put("serialNumber", ticketSerialNo);

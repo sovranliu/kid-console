@@ -50,7 +50,7 @@ public class GetMessages implements IAction{
 				for(Message msg:msgList){
 					Map<String,Object> map=new HashMap<>();
 					UserEntity userEntity=userService.getUserById(msg.getUserid());
-					map.put("mobileNo", userEntity.mobileno);
+					map.put("mobileNo", userEntity.telephone);
 					map.put("id", msg.getId());
 					map.put("message", msg.getMessage());
 					map.put("reply", msg.getAnswer());
