@@ -46,7 +46,7 @@ public class RevokeBooking implements IAction{
 	}
 	
 	private boolean isRevokeAble(Book book){
-		boolean flag=false;
+		boolean flag=true;
 		if(book!=null){
 			//1：已预约，2：改期申请中，3：改期通过，4：改期拒绝，5：核销完成，6：撤销申请中，7：撤销通过，8：拒绝撤销
 			if(book.getBookstatus().equals("1")||book.getBookstatus().equals("3")||book.getBookstatus().equals("4")||book.getBookstatus().equals("8")){

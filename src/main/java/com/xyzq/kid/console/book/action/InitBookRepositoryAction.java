@@ -24,10 +24,11 @@ public class InitBookRepositoryAction implements IAction {
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
 		String repoCount=configService.fetch(BOOK_REPOSITORY_COUNT);
+		String bookDate=(String)context.parameter("bookDate");
 		if(StringUtils.isNullOrEmpty(repoCount)){
 			repoCount="5";
 		}
-		if(bookRepositoryService.initRepositoryByDate("2017-08-05", Integer.valueOf(repoCount))){
+		if(bookRepositoryService.initRepositoryByDate(bookDate, Integer.valueOf(repoCount))){
 			context.set("code", 0);
 		}
 		return "success.json";
