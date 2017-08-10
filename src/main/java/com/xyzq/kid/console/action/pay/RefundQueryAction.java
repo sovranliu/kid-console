@@ -1,12 +1,19 @@
 package com.xyzq.kid.console.action.pay;
 
 import com.xyzq.kid.finance.service.RefundService;
+import com.xyzq.kid.finance.service.entity.OrderInfoEntity;
 import com.xyzq.kid.finance.service.entity.RefundInfoEntity;
+import com.xyzq.kid.logic.config.service.GoodsTypeService;
+import com.xyzq.kid.logic.ticket.entity.TicketEntity;
+import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.kid.logic.user.entity.UserEntity;
 import com.xyzq.kid.logic.user.service.UserService;
 import com.xyzq.simpson.base.json.JSONArray;
+import com.xyzq.simpson.base.model.Page;
+import com.xyzq.simpson.base.text.Text;
 import com.xyzq.simpson.base.time.DateTime;
 import com.xyzq.simpson.base.type.List;
+import com.xyzq.simpson.base.type.Table;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -34,6 +41,16 @@ public class RefundQueryAction implements IAction {
      */
     @Autowired
     protected UserService userService;
+    /**
+     * 票务服务
+     */
+    @Autowired
+    protected TicketService ticketService;
+    /**
+     * 商品类型服务
+     */
+    @Autowired
+    protected GoodsTypeService goodsTypeService;
 
 
     /**
@@ -45,8 +62,20 @@ public class RefundQueryAction implements IAction {
      */
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
-        String orderNo = (String) context.parameter("orderNo");
+        Page<Table<String, Object>> page = new Page<Table<String, Object>>();
+        String serialNo = (String) context.parameter("serialNo");
         String mobileNo = (String) context.parameter("mobileNo");
+        String orderNo = null;
+        if(!Text.isBlank(serialNo)) {
+            TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNo);
+            if(null == ticketEntity) {
+                // 票号不存在
+                page.list = new List<Table<String, Object>>();
+                context.set("data", page);
+                return "success.json";
+            }
+            orderNo = ticketEntity.payNumber;
+        }
         String openId = null;
         UserEntity userEntity = userService.selectByMolieNo(mobileNo);
         if(null != userEntity) {
@@ -65,8 +94,27 @@ public class RefundQueryAction implements IAction {
         catch (Exception ex) { }
         int begin = (Integer) context.parameter("begin", 0);
         int size = (Integer) context.parameter("limit", 10);
-        List<RefundInfoEntity> refundInfoEntityList = refundService.find(orderNo, openId, status, beginTime, endTime, begin, size);
-        context.set("data", JSONArray.convertFromSet(refundInfoEntityList));
+        Page<RefundInfoEntity> refundInfoEntityPage = refundService.find(orderNo, openId, status, beginTime, endTime, begin, size);
+        page.list = new List<Table<String, Object>>();
+        for(RefundInfoEntity refundInfoEntity : refundInfoEntityPage.list) {
+            Table<String, Object> table = new Table<String, Object>();
+            table.put("userName", "" + refundInfoEntity.userName);
+            table.put("mobileNo", "" + refundInfoEntity.mobileNo);
+            table.put("refundNo", "" + refundInfoEntity.refundNo);
+            table.put("fee", refundInfoEntity.fee);
+            table.put("refundFee", refundInfoEntity.refundFee);
+            if(goodsTypeService.isRecord(refundInfoEntity.goodsType)) {
+                table.put("serialNo", refundInfoEntity.tag);
+            }
+            else {
+                table.put("serialNo", (null == refundInfoEntity.serialNo)?"":refundInfoEntity.serialNo);
+            }
+            table.put("time", "" + refundInfoEntity.time.toString());
+            table.put("status", refundInfoEntity.status);
+            page.list.add(table);
+        }
+        page.total = refundInfoEntityPage.total;
+        context.set("data", page.toString());
         return "success.json";
     }
 }

@@ -2,11 +2,17 @@ package com.xyzq.kid.console.action.pay;
 
 import com.xyzq.kid.finance.service.OrderService;
 import com.xyzq.kid.finance.service.entity.OrderInfoEntity;
+import com.xyzq.kid.logic.config.service.GoodsTypeService;
+import com.xyzq.kid.logic.record.service.RecordService;
+import com.xyzq.kid.logic.ticket.entity.TicketEntity;
+import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.kid.logic.user.entity.UserEntity;
 import com.xyzq.kid.logic.user.service.UserService;
-import com.xyzq.simpson.base.json.JSONArray;
+import com.xyzq.simpson.base.model.Page;
+import com.xyzq.simpson.base.text.Text;
 import com.xyzq.simpson.base.time.DateTime;
 import com.xyzq.simpson.base.type.List;
+import com.xyzq.simpson.base.type.Table;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -34,6 +40,21 @@ public class OrderQueryAction implements IAction {
      */
     @Autowired
     protected UserService userService;
+    /**
+     * 票务服务
+     */
+    @Autowired
+    protected TicketService ticketService;
+    /**
+     * 商品类型服务
+     */
+    @Autowired
+    protected GoodsTypeService goodsTypeService;
+    /**
+     * 飞行日志服务
+     */
+    @Autowired
+    protected RecordService recordService;
 
 
     /**
@@ -45,12 +66,26 @@ public class OrderQueryAction implements IAction {
      */
     @Override
     public String execute(Visitor visitor, Context context) throws Exception {
-        String orderNo = (String) context.parameter("orderNo");
+        Page<Table<String, Object>> page = new Page<Table<String, Object>>();
         String mobileNo = (String) context.parameter("mobileNo");
+        String serialNo = (String) context.parameter("serialNo");
+        String orderNo = null;
+        if(!Text.isBlank(serialNo)) {
+            TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNo);
+            if(null == ticketEntity) {
+                // 票号不存在
+                page.list = new List<Table<String, Object>>();
+                context.set("data", page);
+                return "success.json";
+            }
+            orderNo = ticketEntity.payNumber;
+        }
         String openId = null;
-        UserEntity userEntity = userService.selectByMolieNo(mobileNo);
-        if(null != userEntity) {
-            openId = userEntity.openid;
+        if(null != mobileNo) {
+            UserEntity userEntity = userService.selectByMolieNo(mobileNo);
+            if(null != userEntity) {
+                openId = userEntity.openid;
+            }
         }
         int status = (Integer) context.parameter("status", 0);
         DateTime beginTime = null;
@@ -65,8 +100,26 @@ public class OrderQueryAction implements IAction {
         catch (Exception ex) { }
         int begin = (Integer) context.parameter("begin", 0);
         int size = (Integer) context.parameter("limit", 10);
-        List<OrderInfoEntity> orderInfoEntityList = orderService.find(orderNo, openId, status, beginTime, endTime, begin, size);
-        context.set("data", JSONArray.convertFromSet(orderInfoEntityList));
+        Page<OrderInfoEntity> orderInfoEntityPage = orderService.find(orderNo, openId, status, beginTime, endTime, begin, size);
+        page.list = new List<Table<String, Object>>();
+        for(OrderInfoEntity orderInfoEntity : orderInfoEntityPage.list) {
+            Table<String, Object> table = new Table<String, Object>();
+            table.put("userName", "" + orderInfoEntity.userName);
+            table.put("mobileNo", "" + orderInfoEntity.mobileNo);
+            table.put("goodsTypeTitle", "" + goodsTypeService.getGoodsTypeTitle(orderInfoEntity.goodsType));
+            table.put("orderNo", "" + orderInfoEntity.orderNo);
+            table.put("fee", orderInfoEntity.fee);
+            if(goodsTypeService.isRecord(orderInfoEntity.goodsType)) {
+                table.put("serialNo", orderInfoEntity.tag);
+            }
+            else {
+                table.put("serialNo", (null == orderInfoEntity.serialNo)?"":orderInfoEntity.serialNo);
+            }
+            table.put("status", orderInfoEntity.status);
+            page.list.add(table);
+        }
+        page.total = orderInfoEntityPage.total;
+        context.set("data", page.toString());
         return "success.json";
     }
 }
