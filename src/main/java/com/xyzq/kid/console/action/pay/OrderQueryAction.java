@@ -116,6 +116,7 @@ public class OrderQueryAction implements IAction {
                 table.put("serialNo", (null == orderInfoEntity.serialNo)?"":orderInfoEntity.serialNo);
             }
             table.put("status", orderInfoEntity.status);
+            table.put("time", orderInfoEntity.time.toString());
             page.list.add(table);
         }
         page.total = orderInfoEntityPage.total;
