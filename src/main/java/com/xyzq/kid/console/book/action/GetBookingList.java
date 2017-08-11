@@ -41,18 +41,42 @@ public class GetBookingList implements IAction {
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
 		
-		String mobileNo=(String)context.parameter("telephone");
-		String ticketSerialNo=(String)context.parameter("serialNumber");
-		String startDate=(String)context.parameter("startTime");
-		String endDate=(String)context.parameter("endTime");
-		String status=(String)context.parameter("status");
-		String begin=(String)context.parameter("begin");
-		String limit=(String)context.parameter("limit");
+		String mobileNo=null;
+		if(context.parameter("telephone")!=null){
+			mobileNo=(String)context.parameter("telephone");
+		}
+		
+		String ticketSerialNo=null;
+		if(context.parameter("serialNumber")!=null){
+			ticketSerialNo=(String)context.parameter("serialNumber");
+		}
+		String startDate=null;
+		if(context.parameter("startTime")!=null){
+			startDate=(String)context.parameter("startTime");
+		}
+		String endDate=null;
+		if(context.parameter("endTime")!=null){
+			endDate=(String)context.parameter("endTime");
+		}
+		String status=null;
+		if(context.parameter("status")!=null){
+			status=(String)context.parameter("status");
+		}
+		String begin="1";
+		if(context.parameter("begin")!=null){
+			begin=(String)context.parameter("begin");
+		}
+		String limit="5";
+		if(context.parameter("limit")!=null){
+			limit=(String)context.parameter("limit");
+		}
 		
 		Page<Book> bookPage=bookService.queryByCondPage(mobileNo, ticketSerialNo, startDate, endDate, status, Integer.valueOf(begin), Integer.valueOf(limit));
+		Map<String,Object> resultMap=new HashMap<>();
 		List<Map<String,String>> mapList=new ArrayList<>();
 		Map<String,String> map=new HashMap<>();
 		if(bookPage!=null&&bookPage.getResultList()!=null&&bookPage.getResultList().size()>0){
+			resultMap.put("total", bookPage.getRows());
 			List<Book> bookList=bookPage.getResultList();
 			for(Book book:bookList){
 				UserEntity user=userService.getUserById(book.getUserid());
@@ -66,8 +90,9 @@ public class GetBookingList implements IAction {
 				map.put("time", book.getBookdate()+" "+book.getBooktime());
 				mapList.add(map);
 			}
+			resultMap.put("list", mapList);
 			context.set("code", 0);
-			context.set("data", gson.toJson(mapList));
+			context.set("data", gson.toJson(resultMap));
 		}
 		return "success.json";
 	}

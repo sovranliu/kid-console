@@ -1,5 +1,6 @@
 package com.xyzq.kid.console.book.action;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,6 +44,8 @@ public class getRevokeBooks implements IAction {
 	BookRepositoryService bookRepositoryService;
 	
 	Gson gson=new Gson();
+	
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
@@ -86,7 +89,7 @@ public class getRevokeBooks implements IAction {
 					map.put("bookTime",bookTime);
 				}
 				Date requestTime=request.getCreatetime();
-				map.put("requestTime", requestTime);
+				map.put("requestTime", sdf.format(requestTime));
 				mapList.add(map);
 			}
 			resultMap.put("list", mapList);
