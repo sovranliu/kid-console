@@ -29,7 +29,7 @@ public class AddAdminAction implements IAction {
 		AdminEntity sanmeUserNameEntity = adminService.findByUserName(String.valueOf(context.parameter("userName")));
 		if (sanmeUserNameEntity == null) {
 			context.set("msg", "新增成功");
-			context.set("code", "1");
+			context.set("code", "0");
 
 			String userName = String.valueOf(context.parameter("userName"));
 			String password = String.valueOf(context.parameter("password"));
@@ -40,7 +40,7 @@ public class AddAdminAction implements IAction {
 			adminService.addAdmin(newEntity);
 		} else {
 			context.set("msg", "新建失败，已经存在相同userName的记录");
-			context.set("code", "1");
+			context.set("code", "-101");
 		}
 		return "success.json";
 	}

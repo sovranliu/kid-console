@@ -30,11 +30,11 @@ public class deleteAdminAction implements IAction {
 		AdminEntity sanmeUserNameEntity = adminService.load(id);
 		if (sanmeUserNameEntity == null) {
 			context.set("msg", "要删除的记录不存在");
-			context.set("code", "1");
+			context.set("code", "-101");
 		} else {
 
 			context.set("msg", "删除成功");
-			context.set("code", "1");
+			context.set("code", "0");
 
 			adminService.deleteAdmin(id);
 		}
