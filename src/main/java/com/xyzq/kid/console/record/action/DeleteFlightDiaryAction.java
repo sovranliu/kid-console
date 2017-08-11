@@ -1,9 +1,7 @@
 package com.xyzq.kid.console.record.action;
 
-import com.xyzq.kid.logic.record.dao.po.RecordPO;
 import com.xyzq.kid.logic.record.entity.RecordEntity;
 import com.xyzq.kid.logic.record.service.RecordService;
-import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -36,7 +34,7 @@ public class DeleteFlightDiaryAction implements IAction {
 		RecordEntity entity = recordService.load(id);
 		if (entity == null) {
 			context.set("msg", "不能存在该ID记录!");
-			context.set("code", "1");
+			context.set("code", "-101");
 			return "success.json";
 		}
 		recordService.deleteRecord(id);

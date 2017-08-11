@@ -30,12 +30,12 @@ public class ModifyAdminPasswordAction implements IAction {
 		AdminEntity sanmeUserNameEntity = adminService.load(id);
 		if (sanmeUserNameEntity == null) {
 			context.set("msg", "更新的记录不存在");
-			context.set("code", "1");
+			context.set("code", "-101");
 		} else {
 			//不能更改用户名
 
 			context.set("msg", "新增成功");
-			context.set("code", "1");
+			context.set("code", "0");
 
 			String userName = String.valueOf(context.parameter("userName"));
 			String password = String.valueOf(context.parameter("password"));

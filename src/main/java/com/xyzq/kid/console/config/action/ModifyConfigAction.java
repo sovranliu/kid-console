@@ -38,7 +38,7 @@ public class ModifyConfigAction implements IAction {
 		ConfigEntity entity = configService.load(name);
 		if(entity == null){
 			context.set("msg", "修改失败，记录不存在！");
-			context.set("code", "1");
+			context.set("code", "-100");
 			return "success.json";
 		}
 		if (StringUtils.isNotBlank(content) && StringUtils.isNotBlank(entity.pattern)) {
@@ -50,7 +50,7 @@ public class ModifyConfigAction implements IAction {
 				context.set("code", "0");
 			}else{
 				context.set("msg", "修改的参数不满足规则！");
-				context.set("code", "2");
+				context.set("code", "-101");
 			}
 		}else{
 			configService.alter(entity.name, content);

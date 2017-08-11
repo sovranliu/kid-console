@@ -7,13 +7,14 @@ import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
- * 购买飞行日志
+ * 根据票圈serialNumber查询查询飞行日志
  */
-@MaggieAction(path = "kid/console/recordBuy")
-public class RecordBuyAction implements IAction {
+@MaggieAction(path = "kid/console/uploadFlightDiary")
+public class UploadFlightDiaryAction implements IAction {
 	/**
 	 * Action中只支持Autowired注解引入SpringBean
 	 */
@@ -30,18 +31,12 @@ public class RecordBuyAction implements IAction {
 	 */
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
+		String serialNo = String.valueOf(context.parameter("serialNumber"));
+		MultipartFile file = (MultipartFile)context.parameter("file");
 
-		context.set("msg", "飞行日志礼物购买成功!");
+		context.set("msg", "查询成功!");
 		context.set("code", "0");
-		if (null != context.parameter("serialNumber")) {
-			context.set("data", JSONObject.convertFromObject(recordService.buyRecords(String.valueOf(context.parameter("serialNumber")))));
-		} else if (null != context.parameter("id")) {
-			Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
-			context.set("data", JSONObject.convertFromObject(recordService.buyRecord(id)));
-		} else {
-			context.set("msg", "飞行日志礼物购买失败,缺少参数!");
-			context.set("code", "-101");
-		}
+		context.set("data", JSONObject.convertFromObject(recordService.addRecord(serialNo, recordService.uploadFile(file))));
 		return "success.json";
 	}
 
