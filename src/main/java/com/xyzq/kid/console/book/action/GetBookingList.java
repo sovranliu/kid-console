@@ -75,11 +75,11 @@ public class GetBookingList extends AdminAjaxAction {
 		Page<Book> bookPage=bookService.queryByCondPage(mobileNo, ticketSerialNo, startDate, endDate, status, Integer.valueOf(begin), Integer.valueOf(limit));
 		Map<String,Object> resultMap=new HashMap<>();
 		List<Map<String,String>> mapList=new ArrayList<>();
-		Map<String,String> map=new HashMap<>();
 		if(bookPage!=null&&bookPage.getResultList()!=null&&bookPage.getResultList().size()>0){
 			resultMap.put("total", bookPage.getRows());
 			List<Book> bookList=bookPage.getResultList();
 			for(Book book:bookList){
+				Map<String,String> map=new HashMap<>();
 				UserEntity user=userService.getUserById(book.getUserid());
 				if(user!=null){
 					map.put("name", user.userName);
