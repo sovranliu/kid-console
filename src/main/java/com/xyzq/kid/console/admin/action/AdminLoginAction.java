@@ -6,14 +6,14 @@ import com.xyzq.simpson.base.text.Text;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.kid.console.admin.action.AdminAjaxAction;
+import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 管理员登录动作
  */
 @MaggieAction(path = "kid/console/getLogin")
-public class AdminLoginAction extends AdminAjaxAction {
+public class AdminLoginAction implements IAction {
     /**
      * 管理员服务
      */
@@ -29,7 +29,7 @@ public class AdminLoginAction extends AdminAjaxAction {
      * @return 下一步动作，包括后缀名，null表示结束
      */
     @Override
-    public String doExecute(Visitor visitor, Context context) throws Exception {
+    public String execute(Visitor visitor, Context context) throws Exception {
         String userName = (String) context.parameter("userName");
         String password = (String) context.parameter("password");
         if(Text.isBlank(userName) || Text.isBlank(password)) {
