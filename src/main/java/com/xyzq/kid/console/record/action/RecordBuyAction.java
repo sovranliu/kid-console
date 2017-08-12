@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 购买飞行日志
  */
-@MaggieAction(path = "kid/console/recordBuy")
+@MaggieAction(path = "kid/console/postRecord")
 public class RecordBuyAction implements IAction {
 	/**
 	 * Action中只支持Autowired注解引入SpringBean
@@ -31,7 +31,6 @@ public class RecordBuyAction implements IAction {
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
 
-		context.set("msg", "飞行日志礼物购买成功!");
 		context.set("code", "0");
 		if (null != context.parameter("serialNumber")) {
 			context.set("data", JSONObject.convertFromObject(recordService.buyRecords(String.valueOf(context.parameter("serialNumber")))));

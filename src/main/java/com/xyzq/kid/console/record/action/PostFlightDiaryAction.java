@@ -1,7 +1,7 @@
 package com.xyzq.kid.console.record.action;
 
-import com.xyzq.kid.logic.record.entity.RecordEntity;
 import com.xyzq.kid.logic.record.service.RecordService;
+import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
- * 根据飞行日志id删除飞行日志
+ * 保存新增飞行日志
  */
-@MaggieAction(path = "kid/console/deleteFlightDiary")
-public class DeleteFlightDiaryAction implements IAction {
+@MaggieAction(path = "kid/console/postFlightDiary")
+public class PostFlightDiaryAction implements IAction {
 	/**
 	 * Action中只支持Autowired注解引入SpringBean
 	 */
@@ -30,16 +30,22 @@ public class DeleteFlightDiaryAction implements IAction {
 	 */
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
-		Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
-		RecordEntity entity = recordService.load(id);
-		if (entity == null) {
-			context.set("msg", "不能存在该ID记录!");
-			context.set("code", "-101");
+
+		String serialNumber = String.valueOf(context.parameter("serialNumber"));
+		//Path 是数组，使用分号分割。
+		String idStr = String.valueOf(context.parameter("idStr"));
+		String[] idArray = idStr.split(",");
+
+		if (idArray != null && idArray.length > 0) {
+			recordService.saveRecords(serialNumber, idArray);
+			context.set("code", "0");
 			return "success.json";
+		} else {
+			context.set("msg", "保存飞行日志,缺少id参数!");
+			context.set("code", "-101");
+			return "fail.json";
 		}
-		recordService.deleteRecord(id);
-		context.set("code", "0");
-		return "success.json";
+
 	}
 
 }
