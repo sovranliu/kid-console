@@ -88,12 +88,16 @@ public class RefundQueryAction extends AdminAjaxAction {
         }
         DateTime beginTime = null;
         try {
-            beginTime = DateTime.parse((String) context.parameter("beginTime"));
+            if(!Text.isBlank((String) context.parameter("beginTime"))) {
+                beginTime = DateTime.parse((String) context.parameter("beginTime") + " 00:00:00");
+            }
         }
         catch (Exception ex) { }
         DateTime endTime = null;
         try {
-            endTime = DateTime.parse((String) context.parameter("endTime"));
+            if(!Text.isBlank((String) context.parameter("endTime"))) {
+                endTime = DateTime.parse((String) context.parameter("endTime") + " 23:59:59");
+            }
         }
         catch (Exception ex) { }
         int begin = (Integer) context.parameter("begin", 1);
