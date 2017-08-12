@@ -46,8 +46,12 @@ public class GetUserListAction extends AdminAjaxAction {
 
 		String userName = (String) context.parameter("userName");
 		String mobileNo = (String) context.parameter("telephone");
-		Integer begin = (Integer) context.parameter("begin", 1);
+		Integer begin = (Integer) context.parameter("begin", 0);
 		Integer limit = (Integer) context.parameter("limit", 15);
+		begin = limit * (begin - 1);
+		if(begin < 0) {
+			begin = 0;
+		}
 
 		logger.info("[kid/console/getTicketList]-in:mobileNo-" + mobileNo +
 				",begin-" + begin +
