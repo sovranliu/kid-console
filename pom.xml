@@ -57,15 +57,21 @@
         </dependency> 
 	      <!-- Transaction dependency is required with Quartz integration -->  
         <dependency>  
-            <groupId>org.springframework</groupId>  
-            <artifactId>spring-tx</artifactId>  
-            <version>3.2.8.RELEASE</version>  
-        </dependency>  
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>3.2.8.RELEASE</version>
+        </dependency>
 	   <!-- Quartz framework -->  
         <dependency>  
             <groupId>org.quartz-scheduler</groupId>  
             <artifactId>quartz</artifactId>  
-            <version>1.8.2</version>  
+            <version>1.8.5</version>  
+            <exclusions>
+                <exclusion>
+                    <groupId>c3p0</groupId>
+                    <artifactId>c3p0</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>  
         <!-- 基础库 -->
         <dependency>
