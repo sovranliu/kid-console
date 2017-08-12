@@ -13,6 +13,7 @@ import com.xyzq.kid.logic.Page;
 import com.xyzq.kid.logic.book.dao.po.Book;
 import com.xyzq.kid.logic.book.service.BookService;
 import com.xyzq.kid.logic.book.service.BookTimeSpanService;
+import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.kid.logic.user.entity.UserEntity;
 import com.xyzq.kid.logic.user.service.UserService;
@@ -81,11 +82,13 @@ public class GetBookingList extends AdminAjaxAction {
 			for(Book book:bookList){
 				UserEntity user=userService.getUserById(book.getUserid());
 				if(user!=null){
-					String userName=user.telephone;
-					map.put("name", userName);
+					map.put("name", user.userName);
+					map.put("telephone", user.telephone);
 				}
-				map.put("serialNumber", ticketSerialNo);
-				map.put("telephone", mobileNo);
+				TicketEntity ticket=ticketService.getTicketByPk(book.getTicketid());
+				if(ticket!=null){
+					map.put("serialNumber", ticket.serialNumber);
+				}
 				map.put("status", statusTransfer(status));
 				map.put("time", book.getBookdate()+" "+book.getBooktime());
 				mapList.add(map);
