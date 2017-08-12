@@ -32,11 +32,11 @@ public class ModifyConfigAction extends AdminAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
-		String name  = String.valueOf(context.parameter("name"));
-		String content = String.valueOf(context.parameter("content"));
+		String name = String.valueOf(context.parameter("name")) == "null" ? "" : String.valueOf(context.parameter("name"));
+		String content = String.valueOf(context.parameter("content")) == "null" ? "" : String.valueOf(context.parameter("content"));
 
 		ConfigEntity entity = configService.load(name);
-		if(entity == null){
+		if (entity == null) {
 			context.set("msg", "修改失败，记录不存在！");
 			context.set("code", "-100");
 			return "success.json";
@@ -44,15 +44,15 @@ public class ModifyConfigAction extends AdminAjaxAction {
 		if (StringUtils.isNotBlank(content) && StringUtils.isNotBlank(entity.pattern)) {
 			Pattern regPattern = Pattern.compile(entity.pattern);
 			Matcher matcher = regPattern.matcher(content);
-			if (matcher.matches()){
+			if (matcher.matches()) {
 				configService.alter(entity.name, content);
 				context.set("msg", "修改成功！");
 				context.set("code", "0");
-			}else{
+			} else {
 				context.set("msg", "修改的参数不满足规则！");
 				context.set("code", "-101");
 			}
-		}else{
+		} else {
 			configService.alter(entity.name, content);
 			context.set("msg", "修改成功！");
 			context.set("code", "0");

@@ -27,12 +27,12 @@ public class PostConfigAction extends AdminAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
-		String name = String.valueOf(context.parameter("name"));
-		String title = String.valueOf(context.parameter("title"));
-		String content = String.valueOf(context.parameter("content"));
-		String pattern = String.valueOf(context.parameter("pattern"));
+		String name = String.valueOf(context.parameter("name")) == "null" ? "" : String.valueOf(context.parameter("name"));
+		String title = String.valueOf(context.parameter("title")) == "null" ? "" : String.valueOf(context.parameter("title"));
+		String content = String.valueOf(context.parameter("content")) == "null" ? "" : String.valueOf(context.parameter("content"));
+		String pattern = String.valueOf(context.parameter("pattern")) == "null" ? "" : String.valueOf(context.parameter("pattern"));
 
-		Integer id = configService.addConfig(name, title,content, pattern);
+		Integer id = configService.addConfig(name, title, content, pattern);
 		context.set("msg", "新增成功");
 		context.set("code", "0");
 

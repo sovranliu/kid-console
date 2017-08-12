@@ -28,6 +28,7 @@ public class PostMessageAction extends AdminAjaxAction {
 	 * 上下文中的键
 	 */
 	public final static String CONTEXT_KEY_AID = "aid";
+
 	/**
 	 * 动作执行
 	 *
@@ -38,12 +39,12 @@ public class PostMessageAction extends AdminAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 		Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
-		String answerContent = String.valueOf(context.parameter("content"));
+		String answerContent = String.valueOf(context.parameter("content")) == "null" ? "" : String.valueOf(context.parameter("content"));
 		Integer adminId = Integer.valueOf(String.valueOf(context.get(CONTEXT_KEY_AID)));
 
 		AdminEntity adminEntity = adminService.load(adminId);
 
-		messageService.modifiedAnswer(id, adminEntity.userName,answerContent);
+		messageService.modifiedAnswer(id, adminEntity.userName, answerContent);
 		context.set("msg", "回复成功");
 		context.set("code", "0");
 
