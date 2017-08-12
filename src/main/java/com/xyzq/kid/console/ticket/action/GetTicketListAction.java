@@ -54,6 +54,10 @@ public class GetTicketListAction extends AdminAjaxAction {
 		Integer status = (Integer) context.parameter("status", -1);
 		Integer begin = (Integer) context.parameter("begin", 0);
 		Integer limit = (Integer) context.parameter("limit", 15);
+		begin = limit * (begin - 1);
+		if(begin < 0) {
+			begin = 0;
+		}
 
 		logger.info("[kid/console/getTicketList]-in:serialNumber-" + serialNumber +
 				",mobileNo-" + mobileNo +
