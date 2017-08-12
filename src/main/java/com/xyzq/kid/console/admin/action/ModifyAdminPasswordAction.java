@@ -5,13 +5,14 @@ import com.xyzq.kid.logic.admin.service.AdminService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
+import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 修改密码
  */
 @MaggieAction(path = "kid/console/modifyPassword")
-public class ModifyAdminPasswordAction extends AdminAjaxAction {
+public class ModifyAdminPasswordAction implements IAction {
 	@Autowired
 	private AdminService adminService;
 
@@ -23,7 +24,7 @@ public class ModifyAdminPasswordAction extends AdminAjaxAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String doExecute(Visitor visitor, Context context) throws Exception {
+	public String execute(Visitor visitor, Context context) throws Exception {
 		Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
 		AdminEntity sanmeUserNameEntity = adminService.load(id);
 		if (sanmeUserNameEntity == null) {
@@ -32,13 +33,13 @@ public class ModifyAdminPasswordAction extends AdminAjaxAction {
 		} else {
 			//不能更改用户名
 
-			context.set("msg", "新增成功");
+			context.set("msg", "修改密码成功");
 			context.set("code", "0");
 
-			String userName = String.valueOf(context.parameter("userName"));
-			String password = String.valueOf(context.parameter("password"));
-			String email = String.valueOf(context.parameter("email"));
-			String mobile = String.valueOf(context.parameter("mobile"));
+			String userName = String.valueOf(context.parameter("userName")) == "null" ? "" : String.valueOf(context.parameter("userName"));
+			String password = String.valueOf(context.parameter("password")) == "null" ? "" : String.valueOf(context.parameter("password"));
+			String email = String.valueOf(context.parameter("email")) == "null" ? "" : String.valueOf(context.parameter("email"));
+			String mobile = String.valueOf(context.parameter("mobile")) == "null" ? "" : String.valueOf(context.parameter("mobile"));
 
 			AdminEntity newEntity = new AdminEntity(id, userName, password, email, mobile);
 			adminService.updateAdmin(newEntity);
