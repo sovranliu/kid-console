@@ -31,12 +31,11 @@ public class UploadFlightDiaryAction implements IAction {
 	 */
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
-		String serialNo = String.valueOf(context.parameter("serialNumber"));
 		MultipartFile file = (MultipartFile)context.parameter("file");
 
-		context.set("msg", "查询成功!");
+		context.set("msg", "上传成功!");
 		context.set("code", "0");
-		context.set("data", JSONObject.convertFromObject(recordService.addRecord(serialNo, recordService.uploadFile(file))));
+		context.set("data", JSONObject.convertFromObject(recordService.uploadFile(file)));
 		return "success.json";
 	}
 

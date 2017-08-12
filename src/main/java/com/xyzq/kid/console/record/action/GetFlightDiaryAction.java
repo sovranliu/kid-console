@@ -31,7 +31,6 @@ public class GetFlightDiaryAction implements IAction {
 	@Override
 	public String execute(Visitor visitor, Context context) throws Exception {
 		String serialNo = String.valueOf(context.parameter("serialNumber"));
-		context.set("msg", "查询成功!");
 		context.set("code", "0");
 		context.set("data", JSONObject.convertFromObject(recordService.findBy(serialNo, null)));
 		return "success.json";
