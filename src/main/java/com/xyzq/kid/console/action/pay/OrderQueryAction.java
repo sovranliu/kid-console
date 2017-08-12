@@ -90,7 +90,7 @@ public class OrderQueryAction extends AdminAjaxAction {
         }
         Integer status = null;
         if(!Text.isBlank((String) context.parameter("status"))) {
-            status = (Integer) context.parameter("status");
+            status = (Integer) context.parameter("status", 0);
         }
         DateTime beginTime = null;
         try {
