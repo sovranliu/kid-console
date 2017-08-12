@@ -5,15 +5,14 @@ import com.xyzq.kid.logic.admin.service.AdminService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 新增后台管理员
- * Created by Brann on 17/7/29.
  */
 @MaggieAction(path = "kid/console/addAdmin")
-public class AddAdminAction implements IAction {
+public class AddAdminAction extends AdminAjaxAction {
 	@Autowired
 	private AdminService adminService;
 
@@ -25,7 +24,7 @@ public class AddAdminAction implements IAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		AdminEntity sanmeUserNameEntity = adminService.findByUserName(String.valueOf(context.parameter("userName")));
 		if (sanmeUserNameEntity == null) {
 			context.set("msg", "新增成功");
@@ -44,5 +43,4 @@ public class AddAdminAction implements IAction {
 		}
 		return "success.json";
 	}
-
 }

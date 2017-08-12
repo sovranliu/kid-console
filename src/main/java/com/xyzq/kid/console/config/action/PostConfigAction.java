@@ -4,7 +4,7 @@ import com.xyzq.kid.logic.config.service.ConfigService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by Brann on 17/7/29.
  */
 @MaggieAction(path = "kid/console/postConfig")
-public class PostConfigAction implements IAction {
+public class PostConfigAction extends AdminAjaxAction {
 	@Autowired
 	private ConfigService configService;
 
@@ -25,7 +25,7 @@ public class PostConfigAction implements IAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 
 		String name = String.valueOf(context.parameter("name"));
 		String title = String.valueOf(context.parameter("title"));

@@ -1,5 +1,6 @@
 package com.xyzq.kid.console.action.pay;
 
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 import com.xyzq.kid.finance.service.RefundService;
 import com.xyzq.kid.finance.service.entity.OrderInfoEntity;
 import com.xyzq.kid.finance.service.entity.RefundInfoEntity;
@@ -17,7 +18,7 @@ import com.xyzq.simpson.base.type.Table;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 退款查询动作
  */
 @MaggieAction(path = "kid/console/query/refund")
-public class RefundQueryAction implements IAction {
+public class RefundQueryAction extends AdminAjaxAction {
     /**
      * 日志对象
      */
@@ -61,7 +62,7 @@ public class RefundQueryAction implements IAction {
      * @return 下一步动作，包括后缀名，null表示结束
      */
     @Override
-    public String execute(Visitor visitor, Context context) throws Exception {
+    public String doExecute(Visitor visitor, Context context) throws Exception {
         Page<Table<String, Object>> page = new Page<Table<String, Object>>();
         String serialNo = (String) context.parameter("serialNo");
         String mobileNo = (String) context.parameter("mobileNo");

@@ -8,10 +8,10 @@ import com.xyzq.kid.logic.config.service.ConfigService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 
 @MaggieAction(path="kid/console/timeSpanInit")
-public class InitBookTimeSpanAction implements IAction{
+public class InitBookTimeSpanAction extends AdminAjaxAction {
 	
 	@Autowired
 	BookTimeSpanService bookTimeSpanService;	
@@ -26,7 +26,7 @@ public class InitBookTimeSpanAction implements IAction{
 	static final String BOOK_TIME_INTERVAL="book_interval_mins";
 	
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		String start=configService.fetch(BOOK_TIME_START);
 		if(StringUtils.isNullOrEmpty(start)){
 			start="9";

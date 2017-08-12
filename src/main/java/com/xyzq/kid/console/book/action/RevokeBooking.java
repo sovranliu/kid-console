@@ -11,9 +11,9 @@ import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 @MaggieAction(path="kid/console/revokeBooking")
-public class RevokeBooking implements IAction{
+public class RevokeBooking extends AdminAjaxAction {
 	
 	@Autowired
 	TicketService ticketService;
@@ -28,7 +28,7 @@ public class RevokeBooking implements IAction{
 	BookChangeRequestService bookChangeRequestService;
 
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		String serialNumber=(String)context.parameter("serialNumber");
 		TicketEntity ticket=ticketService.getTicketsInfoBySerialno(serialNumber);
 		if(ticket!=null){

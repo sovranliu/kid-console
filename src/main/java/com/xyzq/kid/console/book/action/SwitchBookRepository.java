@@ -7,16 +7,16 @@ import com.xyzq.kid.logic.book.service.BookRepositoryService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 
 @MaggieAction(path="kid/console/switchBookRepository")
-public class SwitchBookRepository implements IAction {
+public class SwitchBookRepository extends AdminAjaxAction {
 	
 	@Autowired
 	BookRepositoryService bookRepositoryService;
 
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		Integer bookId=null;
 		if(context.parameter("id")!=null){
 			bookId=Integer.valueOf((String)context.parameter("id"));

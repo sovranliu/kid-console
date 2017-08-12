@@ -1,22 +1,22 @@
 package com.xyzq.kid.console.record.action;
 
 import com.xyzq.kid.logic.record.service.RecordService;
-import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 
 
 /**
- * 根据票圈serialNumber查询查询飞行日志
+ * 上传飞行日志
  */
 @MaggieAction(path = "kid/console/uploadFlightDiary")
-public class UploadFlightDiaryAction implements IAction {
+public class UploadFlightDiaryAction extends AdminAjaxAction {
 	/**
-	 * Action中只支持Autowired注解引入SpringBean
+	 * 飞行日志服务
 	 */
 	@Autowired
 	private RecordService recordService;
@@ -30,13 +30,13 @@ public class UploadFlightDiaryAction implements IAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
-		MultipartFile file = (MultipartFile)context.parameter("file");
-
-		context.set("msg", "上传成功!");
-		context.set("code", "0");
-		context.set("data", JSONObject.convertFromObject(recordService.uploadFile(file)));
+	public String doExecute(Visitor visitor, Context context) throws Exception {
+		File file = (File) context.parameter("file");
+		if(null == file || !file.exists()) {
+			context.set("msg", "飞行日志上传失败");
+			return "fail.json";
+		}
+		context.set("data", "\"" + recordService.uploadFile(file) + "\"");
 		return "success.json";
 	}
-
 }

@@ -12,7 +12,7 @@ import com.xyzq.simpson.base.json.JSONArray;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import java.util.Map;
  * Created by Brann on 17/7/29.
  */
 @MaggieAction(path = "kid/console/getAllRefund")
-public class GetAllRefundAction implements IAction {
+public class GetAllRefundAction extends AdminAjaxAction {
 	@Autowired
 	private TicketService ticketService;
 
@@ -49,7 +49,7 @@ public class GetAllRefundAction implements IAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 
 		List<TicketRefundEntity> ticketRefundEntityList = ticketService.selectAllRefunding();
 		List<Map<String,Object>> mapList=new ArrayList<>();

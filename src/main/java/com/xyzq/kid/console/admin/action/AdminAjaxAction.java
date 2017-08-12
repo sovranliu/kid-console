@@ -18,10 +18,8 @@ public abstract class AdminAjaxAction implements IAction {
     public final static String CONTEXT_KEY_AID = "aid";
 
     /**
-     * 站点域名
+     * 后台登录页
      */
-    @Value("${KID.CONSOLE.URL_DOMAIN}")
-    public String url_domain;
     @Value("${KID.CONSOLE.URL_PAGE_LOGIN}")
     public String url_page_login;
     /**

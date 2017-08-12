@@ -5,15 +5,13 @@ import com.xyzq.kid.logic.admin.service.AdminService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 新增后台管理员
- * Created by Brann on 17/7/29.
+ * 修改密码
  */
 @MaggieAction(path = "kid/console/modifyPassword")
-public class ModifyAdminPasswordAction implements IAction {
+public class ModifyAdminPasswordAction extends AdminAjaxAction {
 	@Autowired
 	private AdminService adminService;
 
@@ -25,7 +23,7 @@ public class ModifyAdminPasswordAction implements IAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
 		AdminEntity sanmeUserNameEntity = adminService.load(id);
 		if (sanmeUserNameEntity == null) {
@@ -47,5 +45,4 @@ public class ModifyAdminPasswordAction implements IAction {
 		}
 		return "success.json";
 	}
-
 }

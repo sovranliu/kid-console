@@ -7,16 +7,16 @@ import com.xyzq.kid.logic.book.service.BookChangeRequestService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 
 @MaggieAction(path="kid/console/approveBookChange")
-public class ApproveBookChange implements IAction {
+public class ApproveBookChange extends AdminAjaxAction {
 	
 	@Autowired
 	BookChangeRequestService bookChangeRequestService;
 
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		Integer requestId=null;
 		if(context.parameter("id")!=null){
 			requestId=Integer.valueOf((String)context.parameter("id"));

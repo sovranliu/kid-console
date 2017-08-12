@@ -5,7 +5,7 @@ import com.xyzq.kid.logic.record.service.RecordService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 根据飞行日志id删除飞行日志
  */
 @MaggieAction(path = "kid/console/deleteFlightDiary")
-public class DeleteFlightDiaryAction implements IAction {
+public class DeleteFlightDiaryAction extends AdminAjaxAction {
 	/**
 	 * Action中只支持Autowired注解引入SpringBean
 	 */
@@ -29,7 +29,7 @@ public class DeleteFlightDiaryAction implements IAction {
 	 * @return 下一步动作，包括后缀名，null表示结束
 	 */
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
 		RecordEntity entity = recordService.load(id);
 		if (entity == null) {

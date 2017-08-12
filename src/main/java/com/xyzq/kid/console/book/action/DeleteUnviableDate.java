@@ -8,16 +8,16 @@ import com.xyzq.kid.logic.dateUnviable.service.DateUnviableService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.simpson.maggie.framework.action.core.IAction;
+import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 
 @MaggieAction(path="kid/console/deleteUnviableDate")
-public class DeleteUnviableDate implements IAction {
+public class DeleteUnviableDate extends AdminAjaxAction {
 	
 	@Autowired
 	DateUnviableService dateUnviableService;
 
 	@Override
-	public String execute(Visitor visitor, Context context) throws Exception {
+	public String doExecute(Visitor visitor, Context context) throws Exception {
 		String date=(String)context.parameter("unviableDate");
 		if(StringUtils.isNullOrEmpty(date)){
 			DateUnviableEntity entity=dateUnviableService.findBy(date);
