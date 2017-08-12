@@ -82,7 +82,10 @@ public class RefundQueryAction extends AdminAjaxAction {
         if(null != userEntity) {
             openId = userEntity.openid;
         }
-        Integer status = (Integer) context.parameter("status");
+        Integer status = null;
+        if(!Text.isBlank((String) context.parameter("status"))) {
+            status = (Integer) context.parameter("status");
+        }
         DateTime beginTime = null;
         try {
             beginTime = DateTime.parse((String) context.parameter("beginTime"));
