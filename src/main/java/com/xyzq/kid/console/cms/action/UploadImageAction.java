@@ -9,6 +9,10 @@ import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 上传图片动作
@@ -52,6 +56,10 @@ public class UploadImageAction extends AdminAjaxAction {
         File targetFile = new File(imageUploadDirectory + File.separator + fileName);
         FileHelper.copy(file, targetFile, true);
         targetFile.setReadable(true, false);
+        Set perms = new HashSet();
+        perms.add(PosixFilePermission.GROUP_READ);
+        perms.add(PosixFilePermission.OTHERS_READ);
+        Files.setPosixFilePermissions(targetFile.toPath(), perms);
         context.set("data", "\"" + imageUploadUrl + "/" + fileName + "\"");
         return "success.json";
     }
