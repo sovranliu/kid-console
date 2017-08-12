@@ -1,6 +1,7 @@
 package com.xyzq.kid.console.record.action;
 
 import com.xyzq.kid.logic.record.service.RecordService;
+import com.xyzq.simpson.base.json.JSONObject;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -36,7 +37,7 @@ public class UploadFlightDiaryAction extends AdminAjaxAction {
 			context.set("msg", "飞行日志上传失败");
 			return "fail.json";
 		}
-		context.set("data", "\"" + recordService.uploadFile(file) + "\"");
+		context.set("data", JSONObject.convertFromTable(recordService.uploadFile(file)));
 		return "success.json";
 	}
 }
