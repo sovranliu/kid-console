@@ -44,12 +44,15 @@ public class GetMaterielAction extends AdminAjaxAction {
 		Integer categoryid = (Integer) context.parameter("type", 0);
 		logger.info("[kid/wechat/getMateriel]-in:categoryid[" + categoryid + "]");
 
+		Map<String,Object> resultMap=new HashMap<>();
 		List<Map<String,Object>> mapList=new ArrayList<>();
 
 		List<CMSEntity> cmsEntityList = cmsService.getCMSByCategoryid(categoryid);
 		if(null != cmsEntityList && cmsEntityList.size() > 0) {
+			resultMap.put("total", cmsEntityList.size());
 			for(CMSEntity cmsEntity : cmsEntityList) {
 				Map<String, Object> map = new HashMap<>();
+				map.put("id", cmsEntity.id);
 				map.put("title", cmsEntity.title);
 				map.put("imgUrl", cmsEntity.imageurl);
 				map.put("link", cmsEntity.link);
@@ -58,8 +61,10 @@ public class GetMaterielAction extends AdminAjaxAction {
 			}
 		}
 
-		context.set("data", gson.toJson(mapList));
-		logger.info("[kid/console/getMateriel]-out:" + gson.toJson(mapList));
+		resultMap.put("list", mapList);
+
+		context.set("data", gson.toJson(resultMap));
+		logger.info("[kid/console/getMateriel]-out:" + gson.toJson(resultMap));
 
 		return "success.json";
 	}
