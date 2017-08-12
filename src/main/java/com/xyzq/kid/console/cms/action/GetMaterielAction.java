@@ -65,10 +65,10 @@ public class GetMaterielAction extends AdminAjaxAction {
 				map.put("id", cmsEntity.id);
 				map.put("categoryid", cmsEntity.categoryid);
 				map.put("title", cmsEntity.title);
-				map.put("imageurl", cmsEntity.imageurl);
+				map.put("imageUrl", cmsEntity.imageurl);
 				map.put("link", cmsEntity.link);
-				map.put("createtime", cmsEntity.createtime);
-				map.put("updatetime", cmsEntity.updatetime);
+//				map.put("createtime", cmsEntity.createtime);
+				map.put("updateTime", cmsEntity.updatetime);
 				mapList.add(map);
 			}
 			resultMap.put("list", mapList);
