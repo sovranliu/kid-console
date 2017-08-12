@@ -88,7 +88,7 @@ public class OrderQueryAction extends AdminAjaxAction {
                 openId = userEntity.openid;
             }
         }
-        int status = (Integer) context.parameter("status", 0);
+        Integer status = (Integer) context.parameter("status");
         DateTime beginTime = null;
         try {
             beginTime = DateTime.parse((String) context.parameter("beginTime"));
@@ -99,8 +99,12 @@ public class OrderQueryAction extends AdminAjaxAction {
             endTime = DateTime.parse((String) context.parameter("endTime"));
         }
         catch (Exception ex) { }
-        int begin = (Integer) context.parameter("begin", 0);
+        int begin = (Integer) context.parameter("begin", 1);
         int size = (Integer) context.parameter("limit", 10);
+        begin = size * (begin - 1);
+        if(begin < 0) {
+            begin = 0;
+        }
         Page<OrderInfoEntity> orderInfoEntityPage = orderService.find(orderNo, openId, status, beginTime, endTime, begin, size);
         page.list = new List<Table<String, Object>>();
         for(OrderInfoEntity orderInfoEntity : orderInfoEntityPage.list) {

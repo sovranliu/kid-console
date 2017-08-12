@@ -2,6 +2,9 @@ package com.xyzq.kid.console.admin.action;
 
 import com.xyzq.kid.logic.admin.entity.AdminEntity;
 import com.xyzq.kid.logic.admin.service.AdminService;
+import com.xyzq.simpson.base.json.JSONNumber;
+import com.xyzq.simpson.base.json.JSONObject;
+import com.xyzq.simpson.base.json.JSONString;
 import com.xyzq.simpson.base.text.Text;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
@@ -47,6 +50,12 @@ public class AdminLoginAction implements IAction {
         }
         String aId = adminService.saveSession(adminEntity.id);
         visitor.setCookie("aid", aId);
+        JSONObject data = new JSONObject();
+        data.put("id", new JSONNumber(adminEntity.id));
+        data.put("userName", new JSONString(adminEntity.userName));
+        data.put("mobileNo", new JSONString(adminEntity.mobile));
+        data.put("email", new JSONString(adminEntity.email));
+        context.set("data", data);
         return "success.json";
     }
 }
