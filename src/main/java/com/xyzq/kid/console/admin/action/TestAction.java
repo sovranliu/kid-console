@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 范例动作
  */
 @MaggieAction(path = "kid/console/test")
-public class TestAction extends IAction {
+public class TestAction implements IAction {
     /**
      * 管理员服务
      */
