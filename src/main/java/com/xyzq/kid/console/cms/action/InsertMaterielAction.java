@@ -35,10 +35,9 @@ public class InsertMaterielAction extends AdminAjaxAction {
 
 		Integer categoryid = (Integer) context.parameter("categoryid", 0);
 		String title = (String) context.parameter("title");
-		String imageurl = (String) context.parameter("imgurl");
-		//TODO
-		String link = "test2";
-		logger.info("[kid/console/insertMateriel]-in:categoryid[" + categoryid + "],title[" + title + "]");
+		String imageurl = (String) context.parameter("imgUrl");
+		String link = (String) context.parameter("link");
+		logger.info("[kid/console/insertMateriel]-in:categoryid[" + categoryid + "],title[" + title + "],imageurl[" + imageurl + "],link[" + link + "]");
 
 		CMSEntity cmsEntity = new CMSEntity();
 		cmsEntity.categoryid = categoryid;
