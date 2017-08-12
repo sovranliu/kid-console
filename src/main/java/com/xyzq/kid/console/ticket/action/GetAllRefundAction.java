@@ -64,7 +64,11 @@ public class GetAllRefundAction extends AdminAjaxAction {
 				map.put("serialNumber", ticketEntity.serialNumber);
 				map.put("expireTime", ticketEntity.expire);
 				map.put("price", ticketEntity.price);
-				map.put("backPrice", "");
+				if(ticketEntity.insurance) {
+					map.put("backPrice", ticketEntity.price);
+				} else {
+					map.put("backPrice", ticketEntity.price.doubleValue() * 0.7);
+				}
 				map.put("createTime", ticketRefundEntityList.get(i).createtime);
 
 				mapList.add(map);
