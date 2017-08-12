@@ -30,12 +30,12 @@ public class AddAdminAction extends AdminAjaxAction {
 			context.set("msg", "新增成功");
 			context.set("code", "0");
 
-			String userName = String.valueOf(context.parameter("userName"));
-			String password = String.valueOf(context.parameter("password"));
-			String email = String.valueOf(context.parameter("email"));
-			String mobile = String.valueOf(context.parameter("mobile"));
+			String userName = String.valueOf(context.parameter("userName")) == "null" ? "" : String.valueOf(context.parameter("userName"));
+			String password = String.valueOf(context.parameter("password")) == "null" ? "" : String.valueOf(context.parameter("password"));
+			String email = String.valueOf(context.parameter("email")) == "null" ? "" : String.valueOf(context.parameter("email"));
+			String mobile = String.valueOf(context.parameter("mobile")) == "null" ? "" : String.valueOf(context.parameter("mobile"));
 
-			AdminEntity newEntity = new AdminEntity(null,userName, password, email, mobile);
+			AdminEntity newEntity = new AdminEntity(null, userName, password, email, mobile);
 			adminService.addAdmin(newEntity);
 		} else {
 			context.set("msg", "新建失败，已经存在相同userName的记录");
