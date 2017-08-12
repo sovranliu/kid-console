@@ -4,17 +4,14 @@ import com.xyzq.kid.logic.admin.service.AdminService;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
-import com.xyzq.kid.console.admin.action.AdminAjaxAction;
-import com.xyzq.simpson.utility.cache.core.ITimeLimitedCache;
+import com.xyzq.simpson.maggie.framework.action.core.IAction;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.annotation.Resource;
 
 /**
  * 范例动作
  */
 @MaggieAction(path = "kid/console/test")
-public class TestAction extends AdminAjaxAction {
+public class TestAction extends IAction {
     /**
      * 管理员服务
      */
@@ -30,7 +27,7 @@ public class TestAction extends AdminAjaxAction {
      * @return 下一步动作，包括后缀名，null表示结束
      */
     @Override
-    public String doExecute(Visitor visitor, Context context) throws Exception {
+    public String execute(Visitor visitor, Context context) throws Exception {
         String aId = adminService.saveSession(1);
         visitor.setCookie("aid", aId);
         context.set("msg", "测试连接，管理员ID = 1");
