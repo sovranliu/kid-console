@@ -89,7 +89,7 @@ public class GetBookingList extends AdminAjaxAction {
 				if(ticket!=null){
 					map.put("serialNumber", ticket.serialNumber);
 				}
-				map.put("status", statusTransfer(status));
+				map.put("status", statusTransfer(book.getBookstatus()));
 				map.put("time", book.getBookdate()+" "+book.getBooktime());
 				mapList.add(map);
 			}
