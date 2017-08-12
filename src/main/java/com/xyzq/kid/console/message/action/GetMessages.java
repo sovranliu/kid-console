@@ -42,10 +42,6 @@ public class GetMessages extends AdminAjaxAction {
 		Integer userId = null;
 		if (user != null) {
 			userId = user.id;
-		} else {
-			context.set("code", "0");
-			context.set("msg", "无法根据手机号查询到会员记录");
-			return "fail.json";
 		}
 		List<Map<String, Object>> mapList = new ArrayList<>();
 		Page<Message> msgPage = messageService.queryByCondPage(userId, beginTime, endTime, begin, limit);
