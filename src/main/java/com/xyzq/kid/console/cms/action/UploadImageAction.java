@@ -49,7 +49,9 @@ public class UploadImageAction extends AdminAjaxAction {
         if(-1 != i) {
             fileName = fileName + file.getAbsolutePath().substring(i);
         }
-        FileHelper.copy(file, new File(imageUploadDirectory + File.separator + fileName), true);
+        File targetFile = new File(imageUploadDirectory + File.separator + fileName);
+        FileHelper.copy(file, targetFile, true);
+        targetFile.setReadable(true, false);
         context.set("data", "\"" + imageUploadUrl + "/" + fileName + "\"");
         return "success.json";
     }
