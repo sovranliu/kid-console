@@ -51,7 +51,7 @@ public class GetMessages extends AdminAjaxAction {
 				for (Message msg : msgList) {
 					Map<String, Object> map = new HashMap<>();
 					UserEntity userEntity = userService.getUserById(msg.getUserid());
-					map.put("mobileNo", userEntity.telephone);
+					map.put("mobileNo", userEntity == null ? "" : userEntity.telephone);
 					map.put("id", msg.getId());
 					map.put("message", msg.getMessage());
 					map.put("reply", msg.getAnswer());
