@@ -52,12 +52,17 @@ public class GetTicketListAction extends AdminAjaxAction {
 		String startTime = (String) context.parameter("startTime");
 		String endTime = (String) context.parameter("endTime");
 		Integer status = (Integer) context.parameter("status", -1);
+		if(status == -1) {
+			status = null;
+		}
+
 		Integer begin = (Integer) context.parameter("begin", 0);
 		Integer limit = (Integer) context.parameter("limit", 15);
 		begin = limit * (begin - 1);
 		if(begin < 0) {
 			begin = 0;
 		}
+
 
 		logger.info("[kid/console/getTicketList]-in:serialNumber-" + serialNumber +
 				",mobileNo-" + mobileNo +
