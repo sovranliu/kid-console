@@ -51,7 +51,7 @@ public class GetTicketListAction extends AdminAjaxAction {
 		String mobileNo = (String) context.parameter("telephone");
 		String startTime = (String) context.parameter("startTime");
 		String endTime = (String) context.parameter("endTime");
-		Integer status = (Integer) context.parameter("status");
+		Integer status = (Integer) context.parameter("status", -1);
 		Integer begin = (Integer) context.parameter("begin", 0);
 		Integer limit = (Integer) context.parameter("limit", 15);
 
