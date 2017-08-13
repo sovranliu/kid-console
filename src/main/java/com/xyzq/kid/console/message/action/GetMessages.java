@@ -1,5 +1,6 @@
 package com.xyzq.kid.console.message.action;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ public class GetMessages extends AdminAjaxAction {
 
 	Gson gson = new Gson();
 
+
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
@@ -45,6 +47,7 @@ public class GetMessages extends AdminAjaxAction {
 		}
 		List<Map<String, Object>> mapList = new ArrayList<>();
 		Page<Message> msgPage = messageService.queryByCondPage(userId, beginTime, endTime, begin, limit);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (msgPage != null && msgPage.getResultList() != null) {
 			List<Message> msgList = msgPage.getResultList();
 			if (msgList != null && msgList.size() > 0) {
@@ -55,8 +58,8 @@ public class GetMessages extends AdminAjaxAction {
 					map.put("id", msg.getId());
 					map.put("message", msg.getMessage());
 					map.put("reply", msg.getAnswer());
-					map.put("beginTime", msg.getCreatetime());
-					map.put("endTime", msg.getAnswertime());
+					map.put("beginDate", sdf.format(msg.getCreatetime()));
+					map.put("endDate", sdf.format(msg.getAnswertime()));
 					mapList.add(map);
 				}
 			}
