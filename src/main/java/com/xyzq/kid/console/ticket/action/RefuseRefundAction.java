@@ -39,7 +39,7 @@ public class RefuseRefundAction extends AdminAjaxAction {
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
 		String serialNumber = (String) context.parameter("serialNumber");
-		logger.info("[kid/console/getAllRefund]-in:" + serialNumber);
+		logger.info("[kid/console/refuseRefund]-in:" + serialNumber);
 
 		TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNumber);
 		ticketService.refuseRefund(ticketEntity.id);
