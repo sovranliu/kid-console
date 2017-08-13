@@ -33,7 +33,7 @@ public class InsertMaterielAction extends AdminAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
-		Integer categoryid = (Integer) context.parameter("categoryid", 0);
+		Integer categoryid = (Integer) context.parameter("type", 0);
 		String title = (String) context.parameter("title");
 		String imageurl = (String) context.parameter("imgUrl");
 		String link = (String) context.parameter("link");
