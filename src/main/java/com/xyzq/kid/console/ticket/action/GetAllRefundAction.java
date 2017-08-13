@@ -1,6 +1,7 @@
 package com.xyzq.kid.console.ticket.action;
 
 import com.google.gson.Gson;
+import com.xyzq.kid.logic.config.common.ConfigCommon;
 import com.xyzq.kid.logic.config.entity.ConfigEntity;
 import com.xyzq.kid.logic.config.service.ConfigService;
 import com.xyzq.kid.logic.ticket.entity.TicketEntity;
@@ -34,6 +35,9 @@ public class GetAllRefundAction extends AdminAjaxAction {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private ConfigService configService;
+
 	Gson gson=new Gson();
 
 	/**
@@ -65,7 +69,10 @@ public class GetAllRefundAction extends AdminAjaxAction {
 				map.put("expireTime", ticketEntity.expire);
 				map.put("price", ticketEntity.price);
 				if(ticketEntity.insurance) {
-					map.put("backPrice", ticketEntity.price);
+					Map<String, Integer> pricemap = configService.getPriceInfo();
+					int fee = Integer.valueOf(pricemap.get(ConfigCommon.FEE_INSURANCE).toString());
+					fee =  ticketEntity.price.intValue() - fee;
+					map.put("backPrice", fee);
 				} else {
 					map.put("backPrice", ticketEntity.price.doubleValue() * 0.7);
 				}
