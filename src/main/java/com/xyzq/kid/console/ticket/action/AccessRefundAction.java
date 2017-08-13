@@ -50,11 +50,11 @@ public class AccessRefundAction extends AdminAjaxAction {
 
 		if(result) {
 			context.set("code", "0");
-			context.set("data", "退款成功！");
+			context.set("msg", "退款成功！");
 			logger.info("[kid/console/getAllRefund]-out:退款成功！");
 		} else {
 			context.set("code", "-1");
-			context.set("data", "退款失败！");
+			context.set("msg", "退款失败！");
 			logger.info("[kid/console/getAllRefund]-out:退款失败！");
 		}
 
