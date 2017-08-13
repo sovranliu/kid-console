@@ -112,6 +112,7 @@ public class RefundQueryAction extends AdminAjaxAction {
             Table<String, Object> table = new Table<String, Object>();
             table.put("userName", "" + refundInfoEntity.userName);
             table.put("mobileNo", "" + refundInfoEntity.mobileNo);
+            table.put("goodsTypeTitle", "" + goodsTypeService.getGoodsTypeTitle(refundInfoEntity.goodsType));
             table.put("refundNo", "" + refundInfoEntity.refundNo);
             table.put("fee", refundInfoEntity.fee);
             table.put("refundFee", refundInfoEntity.refundFee);
