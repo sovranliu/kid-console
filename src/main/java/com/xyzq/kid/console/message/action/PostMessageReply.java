@@ -8,7 +8,7 @@ import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
 import com.xyzq.kid.console.admin.action.AdminAjaxAction;
 
-@MaggieAction(path="kid/console/postMessageReply")
+//@MaggieAction(path="kid/console/postMessageReply")
 public class PostMessageReply extends AdminAjaxAction {
 	
 	@Autowired
