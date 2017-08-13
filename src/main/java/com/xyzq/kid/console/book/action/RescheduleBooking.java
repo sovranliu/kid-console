@@ -43,27 +43,45 @@ public class RescheduleBooking extends AdminAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 		context.set("code", -9);
-		String serialNumber=(String)context.parameter("serialNumber");
+//		String serialNumber=(String)context.parameter("serialNumber");
+		Integer id=null;
+		if(context.parameter("id")!=null){
+			id=Integer.parseInt((String)context.parameter("id"));
+		}
 		String year=(String)context.parameter("year");
 		String month=(String)context.parameter("month");
 		String day=(String)context.parameter("day");
 		String start=(String)context.parameter("start");
 		String end=(String)context.parameter("end");
-		TicketEntity ticket=ticketService.getTicketsInfoBySerialno(serialNumber);
-		if(!StringUtils.isNullOrEmpty(year)&&!StringUtils.isNullOrEmpty(month)&&!StringUtils.isNullOrEmpty(day)){
-			String bookDate=year+"-"+month+"-"+day;
-			String timeSpan=start+"-"+end;
-			BookTimeSpan bs=bookTimeSpanService.queryByTimeSpan(timeSpan);
-			if(bs!=null){
-				BookTimeRepository repo=bookRepositoryService.queryRepositoryByDateAndTimeSpan(bookDate, bs.getId());
-				Book book=bookService.queryBookRecByTicketId(ticket.id);
-				if(book!=null&&isRescheduleAble(book)){
-					if(bookChangeRequestService.createRequest(book.getId(), "1", null, book.getUserid(), repo.getId(),"2")){
-						context.set("code", "0");
+//		TicketEntity ticket=ticketService.getTicketsInfoBySerialno(serialNumber);
+		if(id!=null){
+			Book book=bookService.getBookByPk(id);
+			if(book!=null){
+				if(!StringUtils.isNullOrEmpty(year)&&!StringUtils.isNullOrEmpty(month)&&!StringUtils.isNullOrEmpty(day)){
+					String bookDate=year+"-"+month+"-"+day;
+					String timeSpan=start+"-"+end;
+					BookTimeSpan bs=bookTimeSpanService.queryByTimeSpan(timeSpan);
+					if(bs!=null){
+						BookTimeRepository repo=bookRepositoryService.queryRepositoryByDateAndTimeSpan(bookDate, bs.getId());
+						if(isRescheduleAble(book)){
+							if(bookChangeRequestService.createRequest(book.getId(), "1", null, book.getUserid(), repo.getId(),"2")){
+								context.set("code", "0");
+							}
+						}
 					}
+				}else{
+					context.set("code", -9);
+					context.set("msg", "改期日期参数异常");
 				}
+			}else{
+				context.set("code", -9);
+				context.set("msg", "找不到预约记录");
 			}
+		}else{
+			context.set("code", -9);
+			context.set("msg", "参数异常");
 		}
+		
 		return "success.json";
 	}
 	private boolean isRescheduleAble(Book book){

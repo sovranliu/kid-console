@@ -29,18 +29,32 @@ public class RevokeBooking extends AdminAjaxAction {
 
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
-		String serialNumber=(String)context.parameter("serialNumber");
-		TicketEntity ticket=ticketService.getTicketsInfoBySerialno(serialNumber);
-		if(ticket!=null){
-			Book book=bookService.queryBookRecByTicketId(ticket.id);
-			if(book!=null&&isRevokeAble(book)){
-				//管理员直接撤销
-				if(bookChangeRequestService.createRequest(book.getId(), "2", null, book.getUserid(), null, "2")){
-					context.set("code", "0");
+//		String serialNumber=(String)context.parameter("serialNumber");
+		Integer id=null;
+		if(context.parameter("id")!=null){
+			id=Integer.parseInt((String)context.parameter("id"));
+		}
+//		TicketEntity ticket=ticketService.getTicketsInfoBySerialno(serialNumber);
+		if(id!=null){
+			Book book=bookService.getBookByPk(id);
+			if(book!=null){
+				//只允许以下状态可撤销预约，1：已预约，3：改期通过，4：改期被拒绝，8：撤销被拒绝
+				if(isRevokeAble(book)){
+					//管理员直接撤销
+					if(bookChangeRequestService.createRequest(book.getId(), "2", null, book.getUserid(), null, "2")){
+						context.set("code", 0);
+					}
+				}else{
+					context.set("code", -9);
+					context.set("msg", "当前状态不可预约");
 				}
 			}else{
-				context.set("code", "-9");
+				context.set("code", -9);
+				context.set("msg", "找不到预约信息");
 			}
+		}else{
+			context.set("code", -9);
+			context.set("msg", "参数异常");
 		}
 		return "success.json";
 	}
