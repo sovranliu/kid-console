@@ -72,7 +72,7 @@ public class ApproveBookChange extends AdminAjaxAction {
 							sms(mobileNo,"book_success",serialNumber);
 						}
 					}else if(approveStatus.equals("3")){
-						context.set("msg", "审批拒绝");
+						context.set("msg", "审批驳回");
 						//1：改期，2：撤销
 						if(request.getReqesttype().equals("1")){
 							sms(mobileNo,"change_fail",serialNumber);
