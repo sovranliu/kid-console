@@ -74,7 +74,7 @@ public class GetAllRefundAction extends AdminAjaxAction {
 					fee =  ticketEntity.price.intValue() - fee;
 					map.put("backPrice", fee);
 				} else {
-					map.put("backPrice", ticketEntity.price.doubleValue() * 0.7);
+					map.put("backPrice", (int) ticketEntity.price.intValue() * 0.7);
 				}
 				map.put("createTime", ticketRefundEntityList.get(i).createtime);
 
