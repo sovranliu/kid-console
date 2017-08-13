@@ -20,6 +20,9 @@
 		<property name="targetMethod">
 			<value>init</value>
 		</property>
+		<property name="concurrent">
+			<value>false</value>
+		</property>
 	</bean>
 	<!-- 定义触发时间 ，每天-->
 	<bean id="initRepositoryTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
