@@ -39,7 +39,7 @@ public class PostMessageAction extends AdminAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 		Integer id = Integer.valueOf(String.valueOf(context.parameter("id")));
-		String answerContent = String.valueOf(context.parameter("content")) == "null" ? "" : String.valueOf(context.parameter("content"));
+		String answerContent = String.valueOf(context.parameter("answer")) == "null" ? "" : String.valueOf(context.parameter("answer"));
 		Integer adminId = Integer.valueOf(String.valueOf(context.get(CONTEXT_KEY_AID)));
 
 		AdminEntity adminEntity = adminService.load(adminId);
