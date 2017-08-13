@@ -1,7 +1,10 @@
 package com.xyzq.kid.console.ticket.action;
 
+import com.xyzq.kid.common.service.SMSService;
 import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.logic.ticket.service.TicketService;
+import com.xyzq.simpson.base.type.Table;
+import com.xyzq.simpson.base.type.core.ITable;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -18,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RefuseRefundAction extends AdminAjaxAction {
 	@Autowired
 	private TicketService ticketService;
+	@Autowired
+	private SMSService smsService;
 
 	/**
 	 * 日志对象
@@ -38,6 +43,10 @@ public class RefuseRefundAction extends AdminAjaxAction {
 
 		TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNumber);
 		ticketService.refuseRefund(ticketEntity.id);
+
+		ITable<String, String> data = new Table<String, String>();
+		data.put("serialNumber", serialNumber);
+		smsService.sendSMS(ticketEntity.telephone, "refund_fail", data);
 
 		return "success.json";
 	}

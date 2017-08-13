@@ -1,11 +1,14 @@
 package com.xyzq.kid.console.ticket.action;
 
 import com.google.gson.Gson;
+import com.xyzq.kid.common.service.SMSService;
 import com.xyzq.kid.logic.ticket.entity.TicketEntity;
 import com.xyzq.kid.logic.ticket.entity.TicketRefundEntity;
 import com.xyzq.kid.logic.ticket.service.TicketService;
 import com.xyzq.kid.logic.user.entity.UserEntity;
 import com.xyzq.kid.logic.user.service.UserService;
+import com.xyzq.simpson.base.type.Table;
+import com.xyzq.simpson.base.type.core.ITable;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -27,6 +30,8 @@ import java.util.Map;
 public class AccessRefundAction extends AdminAjaxAction {
 	@Autowired
 	private TicketService ticketService;
+	@Autowired
+	private SMSService smsService;
 
 	/**
 	 * 日志对象
@@ -48,14 +53,19 @@ public class AccessRefundAction extends AdminAjaxAction {
 		TicketEntity ticketEntity = ticketService.getTicketsInfoBySerialno(serialNumber);
 		boolean result = ticketService.accessRefund(ticketEntity.id);
 
+		ITable<String, String> data = new Table<String, String>();
+		data.put("serialNumber", serialNumber);
+
 		if(result) {
 			context.set("code", "0");
 			context.set("msg", "退款成功！");
 			logger.info("[kid/console/getAllRefund]-out:退款成功！");
+			smsService.sendSMS(ticketEntity.telephone, "refund_pass_sucecess", data);
 		} else {
 			context.set("code", "-1");
 			context.set("msg", "退款失败！");
 			logger.info("[kid/console/getAllRefund]-out:退款失败！");
+			smsService.sendSMS(ticketEntity.telephone, "refund_pass_fail", data);
 		}
 
 		return "success.json";
