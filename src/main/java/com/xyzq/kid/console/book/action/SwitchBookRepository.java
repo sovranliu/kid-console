@@ -44,20 +44,20 @@ public class SwitchBookRepository extends AdminAjaxAction {
 
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
-		Integer bookId=null;
+		Integer bookTimeId=null;
 		if(context.parameter("id")!=null){
-			bookId=Integer.valueOf((String)context.parameter("id"));
+			bookTimeId=Integer.valueOf((String)context.parameter("id"));
 		}
 		String switchFlag=null;
 		if(context.parameter("type")!=null){//0：打开 1：关闭
 			switchFlag=(String)context.parameter("type");
 		}
-		if(bookId!=null&&!StringUtils.isNullOrEmpty(switchFlag)){
-			if(bookRepositoryService.updateStatusById(bookId, switchFlag)){
+		if(bookTimeId!=null&&!StringUtils.isNullOrEmpty(switchFlag)){
+			if(bookRepositoryService.updateStatusById(bookTimeId, switchFlag)){
 				context.set("code", 0);
 			}
 			if(switchFlag.equals("1")){//当天打烊，如果当天有预约记录，则强制取消预约，并短信通知用户
-				List<Book> bookList=bookService.queryByBookTimeId(bookId);
+				List<Book> bookList=bookService.queryByBookTimeId(bookTimeId);
 				if(bookList!=null&&bookList.size()>0){
 					for(Book book:bookList){
 						if(bookChangeRequestService.createRequest(book.getId(), "2", null, book.getUserid(), null, "2")){
