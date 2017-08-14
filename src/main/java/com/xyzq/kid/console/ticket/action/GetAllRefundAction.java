@@ -61,24 +61,26 @@ public class GetAllRefundAction extends AdminAjaxAction {
 			for (int i = 0; i < ticketRefundEntityList.size(); i++) {
 				TicketEntity ticketEntity = ticketService.getTicketByPk(ticketRefundEntityList.get(i).ticketid);
 				UserEntity userEntity = userService.selectByMolieNo(ticketEntity.telephone);
-				Map<String,Object> map=new HashMap<>();
+				if(null != userEntity && null != ticketEntity) {
+					Map<String, Object> map = new HashMap<>();
 
-				map.put("name", userEntity.userName);
-				map.put("mobileNo", userEntity.telephone);
-				map.put("serialNumber", ticketEntity.serialNumber);
-				map.put("expireTime", ticketEntity.expire);
-				map.put("price", ticketEntity.price);
-				if(ticketEntity.insurance) {
-					Map<String, Integer> pricemap = configService.getPriceInfo();
-					int fee = Integer.valueOf(pricemap.get(ConfigCommon.FEE_INSURANCE).toString());
-					fee =  ticketEntity.price.intValue() - fee;
-					map.put("backPrice", fee);
-				} else {
-					map.put("backPrice", (int) ticketEntity.price.intValue() * 0.7);
+					map.put("name", userEntity.userName);
+					map.put("mobileNo", userEntity.telephone);
+					map.put("serialNumber", ticketEntity.serialNumber);
+					map.put("expireTime", ticketEntity.expire);
+					map.put("price", ticketEntity.price);
+					if (ticketEntity.insurance) {
+						Map<String, Integer> pricemap = configService.getPriceInfo();
+						int fee = Integer.valueOf(pricemap.get(ConfigCommon.FEE_INSURANCE).toString());
+						fee = ticketEntity.price.intValue() - fee;
+						map.put("backPrice", fee);
+					} else {
+						map.put("backPrice", (int) ticketEntity.price.intValue() * 0.7);
+					}
+					map.put("createTime", ticketRefundEntityList.get(i).createtime);
+
+					mapList.add(map);
 				}
-				map.put("createTime", ticketRefundEntityList.get(i).createtime);
-
-				mapList.add(map);
 			}
 		}
 

@@ -89,7 +89,11 @@ public class GetTicketListAction extends AdminAjaxAction {
 				Map<String,Object> map = new HashMap<>();
 				map.put("serialNumber", ticketEntity.serialNumber);
 				UserEntity userEntity = userService.selectByMolieNo(ticketEntity.telephone);
-				map.put("userName", userEntity.userName);
+				if(null != userEntity) {
+					map.put("userName", userEntity.userName);
+				} else {
+					map.put("userName", "用户未注册");
+				}
 				map.put("telephone", ticketEntity.telephone);
 				map.put("price", ticketEntity.price);
 				if(ticketEntity.type == TicketEntity.TICKET_TYPE_GROUP) {
