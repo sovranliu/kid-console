@@ -114,8 +114,15 @@ public class OrderQueryAction extends AdminAjaxAction {
         }
         Page<OrderInfoEntity> orderInfoEntityPage = orderService.find(orderNo, openId, status, beginTime, endTime, begin, size);
         page.list = new List<Table<String, Object>>();
+        Table<String, Table<String, Object>> sentry = new Table<String, Table<String, Object>>();
         for(OrderInfoEntity orderInfoEntity : orderInfoEntityPage.list) {
-            Table<String, Object> table = new Table<String, Object>();
+            Table<String, Object> table = null;
+            table = sentry.get("" + orderInfoEntity.orderNo);
+            if(null != table) {
+                table.put("serialNo", table.get("serialNo") + "," + orderInfoEntity.serialNo);
+                continue;
+            }
+            table = new Table<String, Object>();
             table.put("userName", "" + orderInfoEntity.userName);
             table.put("mobileNo", "" + orderInfoEntity.mobileNo);
             table.put("goodsTypeTitle", "" + goodsTypeService.getGoodsTypeTitle(orderInfoEntity.goodsType));
@@ -130,6 +137,7 @@ public class OrderQueryAction extends AdminAjaxAction {
             table.put("status", orderInfoEntity.status);
             table.put("time", orderInfoEntity.time.toString());
             page.list.add(table);
+            sentry.put("" + orderInfoEntity.orderNo, table);
         }
         page.total = orderInfoEntityPage.total;
         context.set("data", page.toString());
