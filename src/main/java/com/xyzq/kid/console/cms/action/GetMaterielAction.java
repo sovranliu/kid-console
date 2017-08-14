@@ -42,11 +42,11 @@ public class GetMaterielAction extends AdminAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
-		Integer categoryid = (Integer) context.parameter("categoryid");
+		Integer categoryid = (Integer) context.parameter("type",1);
 		String title = (String) context.parameter("title");
 		Integer begin = (Integer) context.parameter("begin", 0);
 		Integer limit = (Integer) context.parameter("limit", 15);
-		logger.info("[kid/console/getCMSList]-in:categoryid[" + categoryid + "],title[" + title + "],begin[" + begin + "],limit[" + limit + "]'");
+		logger.info("[kid/console/getMateriel]-in:categoryid[" + categoryid + "],title[" + title + "],begin[" + begin + "],limit[" + limit + "]'");
 
 		begin = limit * (begin - 1);
 		if(begin < 0) {
@@ -65,6 +65,7 @@ public class GetMaterielAction extends AdminAjaxAction {
 				map.put("id", cmsEntity.id);
 				map.put("categoryid", cmsEntity.categoryid);
 				map.put("title", cmsEntity.title);
+				map.put("content", cmsEntity.content);
 				map.put("imgUrl", cmsEntity.imageurl);
 				map.put("link", cmsEntity.link);
 //				map.put("createtime", cmsEntity.createtime);
@@ -75,7 +76,7 @@ public class GetMaterielAction extends AdminAjaxAction {
 		}
 
 		context.set("data", gson.toJson(resultMap));
-		logger.info("[kid/console/getTicketList]-out:" + gson.toJson(resultMap));
+		logger.info("[kid/console/getMateriel]-out:" + gson.toJson(resultMap));
 
 		return "success.json";
 	}
