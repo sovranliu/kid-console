@@ -30,7 +30,8 @@ public class InitBookingRepositoryJob{
 	ConfigService configService;
 	
 	static final String BOOK_REPOSITORY_COUNT="book_repository_count";
-	static final String BOOK_MAX_DAYS="book_max_days";
+//	static final String BOOK_MAX_DAYS="book_max_days";
+	static final String TICKET_EXPIRE_DAYS="ticket_expiretime";
 	static final String REPOSITORY_LASTINIT_DATE="repository_lastinit_date";
 	static final String IP_WHITE_NAMELIST="ip_white_namelist";//IP白名单，名单内的服务器可以执行该定时任务
 	
@@ -55,7 +56,7 @@ public class InitBookingRepositoryJob{
 	private void work() {
 		String repoCount = configService.fetch(BOOK_REPOSITORY_COUNT);
 
-		String maxBookDays = configService.fetch(BOOK_MAX_DAYS);
+		String maxBookDays = configService.fetch(TICKET_EXPIRE_DAYS);
 
 		String bookDate = configService.fetch(REPOSITORY_LASTINIT_DATE);
 
