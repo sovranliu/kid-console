@@ -119,7 +119,7 @@ public class OrderQueryAction extends AdminAjaxAction {
             Table<String, Object> table = null;
             table = sentry.get("" + orderInfoEntity.orderNo);
             if(null != table) {
-                table.put("serialNo", table.get("serialNo") + "<br />" + orderInfoEntity.serialNo);
+                table.put("serialNo", table.get("serialNo") + "," + orderInfoEntity.serialNo);
                 continue;
             }
             table = new Table<String, Object>();
