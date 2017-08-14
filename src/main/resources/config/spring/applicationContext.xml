@@ -24,13 +24,13 @@
 			<value>false</value>
 		</property>
 	</bean>
-	<!-- 定义触发时间 ，每天-->
+	<!-- 定义触发时间 ，5分钟执行一次-->
 	<bean id="initRepositoryTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
 			<ref bean="initRepositoryTask" />
 		</property>
 		<property name="cronExpression">
-			<value>* * 6 * * ?</value>
+			<value>* 1/5 * * * ?</value>
 		</property>
 	</bean>
 	<bean id="startQuertz" lazy-init="true" autowire="no"
