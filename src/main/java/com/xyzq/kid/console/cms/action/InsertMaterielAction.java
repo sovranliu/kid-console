@@ -33,15 +33,17 @@ public class InsertMaterielAction extends AdminAjaxAction {
 	@Override
 	public String doExecute(Visitor visitor, Context context) throws Exception {
 
-		Integer categoryid = (Integer) context.parameter("type", 0);
+		Integer categoryid = (Integer) context.parameter("type", 1);
 		String title = (String) context.parameter("title");
+		String content = (String) context.parameter("content");
 		String imageurl = (String) context.parameter("imgUrl");
 		String link = (String) context.parameter("link");
-		logger.info("[kid/console/insertMateriel]-in:categoryid[" + categoryid + "],title[" + title + "],imageurl[" + imageurl + "],link[" + link + "]");
+		logger.info("[kid/console/insertMateriel]-in:categoryid[" + categoryid + "],title[" + title +"],content[" + content + "],imageurl[" + imageurl + "],link[" + link + "]");
 
 		CMSEntity cmsEntity = new CMSEntity();
 		cmsEntity.categoryid = categoryid;
 		cmsEntity.title = title;
+		cmsEntity.content = content;
 		cmsEntity.imageurl = imageurl;
 		cmsEntity.link = link;
 		cmsService.insertCMS(cmsEntity);

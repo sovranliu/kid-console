@@ -36,14 +36,16 @@ public class UpdateMaterielAction extends AdminAjaxAction {
 		Integer cmsId = (Integer) context.parameter("id", 0);
 		Integer categoryid = (Integer) context.parameter("type", 0);
 		String title = (String) context.parameter("title");
+		String content = (String) context.parameter("content");
 		String imageurl = (String) context.parameter("imgUrl");
 		String link = (String) context.parameter("link");
-		logger.info("[kid/console/updateMateriel]-in:categoryid[" + categoryid + "],title[" + title + "],imageurl[" + imageurl + "],link[" + link + "]");
+		logger.info("[kid/console/updateMateriel]-in:categoryid[" + categoryid + "],title[" + title + "],content[" + content + "],imageurl[" + imageurl + "],link[" + link + "]");
 
 		CMSEntity cmsEntity = new CMSEntity();
 		cmsEntity.id = cmsId;
 		cmsEntity.categoryid = categoryid;
 		cmsEntity.title = title;
+		cmsEntity.content = content;
 		cmsEntity.imageurl = imageurl;
 		cmsEntity.link = link;
 		cmsService.updateCMS(cmsEntity);
