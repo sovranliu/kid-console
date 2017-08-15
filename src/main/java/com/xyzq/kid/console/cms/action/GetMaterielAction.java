@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +56,7 @@ public class GetMaterielAction extends AdminAjaxAction {
 
 		Map<String,Object> resultMap=new HashMap<>();
 		List<Map<String,Object>> mapList=new ArrayList<>();
-
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		Page page = cmsService.getCMSCond(categoryid, title, begin, limit);
 		if(null != page && page.getResultList() != null) {
 			resultMap.put("total", page.getRows());
@@ -69,7 +70,7 @@ public class GetMaterielAction extends AdminAjaxAction {
 				map.put("imgUrl", cmsEntity.imageurl);
 				map.put("link", cmsEntity.link);
 //				map.put("createtime", cmsEntity.createtime);
-				map.put("updateTime", cmsEntity.updatetime);
+				map.put("updatetime", sdf.format(cmsEntity.updatetime));
 				mapList.add(map);
 			}
 			resultMap.put("list", mapList);
