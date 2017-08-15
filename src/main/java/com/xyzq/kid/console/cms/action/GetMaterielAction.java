@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.xyzq.kid.logic.Page;
 import com.xyzq.kid.logic.cms.entity.CMSEntity;
 import com.xyzq.kid.logic.cms.service.CMSService;
+import com.xyzq.simpson.base.time.DateTime;
 import com.xyzq.simpson.maggie.access.spring.MaggieAction;
 import com.xyzq.simpson.maggie.framework.Context;
 import com.xyzq.simpson.maggie.framework.Visitor;
@@ -56,7 +57,6 @@ public class GetMaterielAction extends AdminAjaxAction {
 
 		Map<String,Object> resultMap=new HashMap<>();
 		List<Map<String,Object>> mapList=new ArrayList<>();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		Page page = cmsService.getCMSCond(categoryid, title, begin, limit);
 		if(null != page && page.getResultList() != null) {
 			resultMap.put("total", page.getRows());
@@ -70,7 +70,7 @@ public class GetMaterielAction extends AdminAjaxAction {
 				map.put("imgUrl", cmsEntity.imageurl);
 				map.put("link", cmsEntity.link);
 //				map.put("createtime", cmsEntity.createtime);
-				map.put("updatetime", sdf.format(cmsEntity.updatetime));
+				map.put("updatetime", DateTime.parse("" + cmsEntity.updatetime).getDate().toString());
 				mapList.add(map);
 			}
 			resultMap.put("list", mapList);
